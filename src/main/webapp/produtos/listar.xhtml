@@ -31,11 +31,15 @@ rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoCont
 </p:column>
 
 <p:column headerText="Preço">
-<h:outputText value="#{produto.preco}" />
+<h:outputText value="#{produto.preco}" >
+<f:convertNumber pattern="R$#00.00" />
+</h:outputText>
 </p:column>
 
 <p:column headerText="Preco de Compra">
-<h:outputText value="#{produto.precoMaximoCompra}" />
+<h:outputText value="#{produto.precoMaximoCompra}" >
+<f:convertNumber pattern="R$#00.00" />
+</h:outputText>
 </p:column>
 
 <f:facet name="header">

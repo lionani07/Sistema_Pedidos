@@ -7,7 +7,7 @@
     
     <application>
 	  <message-bundle>
-	  	com.br.aernnova.validator.MyMessage
+	  	com.br.stefanini.pedidos.validator.MyMessage
 	  </message-bundle>
      </application>
 

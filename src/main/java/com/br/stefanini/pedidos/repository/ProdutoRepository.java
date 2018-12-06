@@ -17,17 +17,33 @@ public class ProdutoRepository{
 		this.manager = JpaUtil.getEntityManager();
 	}
 	
-	public void adicionar(Produto produto){
+	public Boolean existe(String nome){		
+		TypedQuery<Long> query = this.manager.createQuery("Select Count(p) From Produto p Where p.nome=:nome", Long.class);
+		query.setParameter("nome", nome);
+		Long result =  query.getSingleResult();
+		return (result>0) ? true : false;
+	}
+	
+	public void adicionar(Produto produto){	
 		EntityTransaction trx = this.manager.getTransaction();
-		trx.begin();		
-		this.manager.persist(produto);
-		trx.commit();
-		this.manager.close();
+		try {			
+			trx.begin();		
+			this.manager.persist(produto);
+			trx.commit();			
+		} catch (Exception e) {
+			trx.rollback();
+			throw new RuntimeException(e.getMessage());
+		}		
+				
 	}
 
 	public List<Produto> listar() {
 		TypedQuery<Produto> query = this.manager.createQuery("from Produto p", Produto.class);
 		return query.getResultList();
+	}
+
+	public Produto findById(Integer id) {
+		return this.manager.find(Produto.class, id);
 	}
 	
 

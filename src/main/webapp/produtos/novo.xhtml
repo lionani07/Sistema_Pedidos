@@ -22,13 +22,19 @@ xmlns:p="http://primefaces.org/ui">
 <p:inputText value="#{produtoController.produto.nome}" id="nome" />
 
 <p:outputLabel value="Preço" for="preco" />
-<p:inputNumber value="#{produtoController.produto.preco}" id="preco" />
+<p:inputNumber value="#{produtoController.produto.preco}" id="preco" required="true" decimalPlaces="2" decimalSeparator="," thousandSeparator="."
+validatorMessage="Preço incorreto" requiredMessage="Preço incorreto" >
+<f:validateDoubleRange minimum="1" for="preco" />
+</p:inputNumber>
 
 <p:outputLabel value="Valor Maximo de Compra" for="valorMaximo" />
-<p:inputNumber value="#{produtoController.produto.precoMaximoCompra}" id="valorMaximo" />
+<p:inputNumber value="#{produtoController.produto.precoMaximoCompra}" id="valorMaximo" required="true"
+validatorMessage="Valor máximo de comprar incorreto" decimalPlaces="2" decimalSeparator="," thousandSeparator="." requiredMessage="Valor máximo de comprar incorreto" >
+<f:validateDoubleRange minimum="1" for="valorMaximo" />
+</p:inputNumber>
 
 <f:facet name="footer">
-<p:commandButton value="Salvar" action="#{produtoController.adicionar}"  icon="ui-icon-disk" update="@form" />
+<p:commandButton value="Salvar" action="#{produtoController.adicionar}"  icon="ui-icon-disk" update=":frm_novoProducto" />
 </f:facet>
 </p:panelGrid>
 

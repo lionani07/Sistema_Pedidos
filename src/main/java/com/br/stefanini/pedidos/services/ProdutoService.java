@@ -13,13 +13,12 @@ public class ProdutoService {
 		this.repository = new ProdutoRepository();
 	}
 	
-	public boolean adiciona(Produto produto){
-		if(produto!=null){
-			repository.adicionar(produto);
-			return true;
+	public void adiciona(Produto produto){
+		if(produto!=null){	
+			if(!exite(produto)){
+				repository.adicionar(produto);			
+			}			
 		}
-		throw new RuntimeException("Error ao adicionar Produto");
-		
 		
 	}
 
@@ -27,5 +26,12 @@ public class ProdutoService {
 		return repository.listar();
 	}
 	
+	
+	private boolean exite(Produto produto){
+		if(repository.existe(produto.getNome())){
+			throw new RuntimeException("Produto existe");
+		}
+		return false;
+	}
 
 }

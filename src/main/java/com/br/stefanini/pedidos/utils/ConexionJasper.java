@@ -1,4 +1,4 @@
-package com.br.stefanini.pedidos.utils;
+/*package com.br.stefanini.pedidos.utils;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -37,4 +37,4 @@ public class ConexionJasper {
 			}
 		}
 	}
-}
+}*/

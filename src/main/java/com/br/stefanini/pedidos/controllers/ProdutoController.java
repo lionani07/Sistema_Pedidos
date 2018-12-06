@@ -54,9 +54,14 @@ public class ProdutoController implements Serializable{
 	
 
 	public void adicionar(){
-		this.produtoService.adiciona(this.produto);
-		this.produto = new Produto();
-		mostrarMessage("Produto salvado");
+		try {
+			this.produtoService.adiciona(this.produto);
+			this.produto = new Produto();
+			mostrarMessage("Produto salvado");
+		}catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+		}
+		
 	}
 	
 	public void listar(){
@@ -67,6 +72,12 @@ public class ProdutoController implements Serializable{
 	private void mostrarMessage(String msg){	
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = new FacesMessage(msg);
+		context.addMessage(null, message);
+	}
+	
+	private void mostrarMessageError(String msg){	
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
 		context.addMessage(null, message);
 	}
 	

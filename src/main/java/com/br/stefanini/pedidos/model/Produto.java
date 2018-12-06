@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class Produto implements Serializable {	
@@ -18,7 +22,9 @@ public class Produto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message = "Nome de Produto incorrecto")
 	private String nome;
+	
 	private Double preco;
 	private Double precoMaximoCompra;
 	
