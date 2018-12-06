@@ -28,7 +28,7 @@ public class ProdutoRepository{
 		EntityTransaction trx = this.manager.getTransaction();
 		try {			
 			trx.begin();		
-			this.manager.persist(produto);
+			this.manager.merge(produto);
 			trx.commit();			
 		} catch (Exception e) {
 			trx.rollback();
@@ -44,6 +44,19 @@ public class ProdutoRepository{
 
 	public Produto findById(Integer id) {
 		return this.manager.find(Produto.class, id);
+	}
+
+	public void delete(Produto productoSelect) {
+		EntityTransaction trx = this.manager.getTransaction();
+		try{
+			trx.begin();
+			this.manager.remove(productoSelect);
+			trx.commit();
+		}catch(Exception e){
+			trx.rollback();
+			throw new RuntimeException(e.getMessage());
+		}
+		
 	}
 	
 

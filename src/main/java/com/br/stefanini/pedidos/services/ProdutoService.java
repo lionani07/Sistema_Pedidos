@@ -34,4 +34,9 @@ public class ProdutoService {
 		return false;
 	}
 
+	public void delete(Produto productoSelect) {
+		repository.delete(productoSelect);
+		
+	}
+
 }

@@ -64,10 +64,22 @@ public class ProdutoController implements Serializable{
 		
 	}
 	
+	public void delete(){
+		try {
+			this.produtoService.delete(this.productoSelect);
+			this.productoSelect = null;
+			mostrarMessage("Produto eliminado");
+			listar();
+		} catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+		}
+		
+	}
+	
 	public void listar(){
 		this.listaProdutos = produtoService.listar();
 	}
-	
+		
 	
 	private void mostrarMessage(String msg){	
 		FacesContext context = FacesContext.getCurrentInstance();

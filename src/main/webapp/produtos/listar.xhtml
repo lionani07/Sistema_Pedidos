@@ -14,10 +14,7 @@ xmlns:p="http://primefaces.org/ui">
 
 <h:form id="frm_produtos">
 
-<p:outputLabel value="Listado de Produtos" />
-
-<p:outputLabel value="Aqui va el buscador" />
-
+<p:fieldset legend="Listado Produtos">
 
 <p:dataTable id="datable_produtos" var="produto" value="#{produtoController.listaProdutos}" paginator="true"
 rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoController.productoSelect}" paginatorPosition="bottom" >
@@ -42,6 +39,25 @@ rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoCont
 </h:outputText>
 </p:column>
 
+<p:column style="width:30px">
+<p:button icon="ui-icon-pencil" outcome="/produtos/novo">
+<f:param name="id" value="#{produto.id}" />
+</p:button>
+</p:column>
+
+<p:column style="width:30px">
+<p:commandButton icon=" ui-icon-trash" update=":frm_produtos:datable_produtos" action="#{produtoController.delete}">
+<f:setPropertyActionListener value="#{produto}" target="#{produtoController.productoSelect}" />
+<p:confirm header="Eliminar Produto" message="Tem Certeza?" icon="ui-icon-alert" />
+
+</p:commandButton>
+  <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+		<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+  </p:confirmDialog>
+
+</p:column>
+
 <f:facet name="header">
 <div align="left">
 <p:commandButton value="Novo" action="/produtos/novo?faces-redirect=true"  />
@@ -49,7 +65,7 @@ rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoCont
 </f:facet>
 </p:dataTable>
 
-
+</p:fieldset>
 
 </h:form>
 

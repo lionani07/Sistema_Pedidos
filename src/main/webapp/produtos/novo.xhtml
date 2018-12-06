@@ -7,17 +7,16 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
 
 <f:metadata>
-
+<f:viewParam name="id" value="#{produtoController.produto}" />
 </f:metadata>
 
 <ui:define name="corpo">
 
 <h:form id="frm_novoProducto">
-<p:panelGrid columns="2">
 
-<f:facet name="header" ><div align="left"><h:outputText value="Novo Producto" />
-</div>   
-</f:facet>
+<p:fieldset legend="Novo Produto" style="width:400px">
+
+<p:panelGrid columns="2" style="width:400px">
 <p:outputLabel value="Nome" for="nome" />
 <p:inputText value="#{produtoController.produto.nome}" id="nome" />
 
@@ -35,9 +34,10 @@ validatorMessage="Valor máximo de comprar incorreto" decimalPlaces="2" decimalS
 
 <f:facet name="footer">
 <p:commandButton value="Salvar" action="#{produtoController.adicionar}"  icon="ui-icon-disk" update=":frm_novoProducto" />
+<p:commandButton value="Cancelar" action="/produtos/listar?faces-redirect=true" process="@this" icon="ui-icon-close"  />
 </f:facet>
 </p:panelGrid>
-
+</p:fieldset>
 </h:form>
 
 </ui:define>
