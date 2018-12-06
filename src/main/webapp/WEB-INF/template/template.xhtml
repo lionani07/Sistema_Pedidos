@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+<link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/resources/pedido/ico.ico"/>
+<title>
+<ui:insert name="titulo">PedStefan</ui:insert>
+</title>
+<h:outputStylesheet library="pedido" name="estilo.css" />
+
+</h:head>
+
+<h:body>
+<p:ajaxStatus styleClass="ajax-status">
+<f:facet name="start">
+<h:graphicImage library="pedido" name="loading.gif" width="30" height="30" />
+</f:facet>
+<f:facet name="complete">
+<h:outputText value="" />
+</f:facet>
+</p:ajaxStatus>
+<header>
+<h:graphicImage library="pedido" name="logo.png" />
+<div  style="float: right; margin-right: 20px; margin-top: 8px" >
+<p:outputLabel value="Olá #{loginBean.userLogado.nome}/#{loginBean.userLogado.rol} " rendered="#{not empty loginBean.userLogado}" />
+</div>
+<div style="float: right; margin-right: 70px; margin-top: 4px">
+<h:form id="template">
+<p:button styleClass="bt_header" icon="ui-icon-note" id="tC" value="#{tarefaBean.totalMinhasCreadas}" rendered="#{loginBean.userLogado.rol eq 'CREADOR'}" outcome="/tarefas/minhasTarefas/minhastCreadas?faces-redirect=true"  />
+<p:button styleClass="bt_header" icon="ui-icon-clock" id="tSA" value="#{tarefaBean.totalMinhasCreadas}" rendered="#{loginBean.userLogado.rol eq 'RESPONSAVEL'}" outcome="/tarefas/minhasTarefas/minhastCreadas?faces-redirect=true" />
+<p:button styleClass="bt_header" icon="ui-icon-unlocked" id="tSI" value="#{tarefaBean.totalMinhasAprovadas}" rendered="#{loginBean.userLogado.rol eq 'RESPONSAVEL' or loginBean.userLogado.rol eq 'EJECUTOR'}" outcome="/tarefas/minhasTarefas/minhastAprovadas?faces-redirect=true" />
+<p:button styleClass="bt_header" icon="ui-icon-play" id="tI" value="#{tarefaBean.totalMinhasInciadas}" rendered="#{loginBean.userLogado.rol eq 'RESPONSAVEL' or loginBean.userLogado.rol eq 'EJECUTOR'}"  outcome="/tarefas/minhasTarefas/minhastIniciadas?faces-redirect=true" />
+<p:button styleClass="bt_header" icon="ui-icon-locked" id="tF" value="#{tarefaBean.totalMinhasFechadas}" rendered="#{loginBean.userLogado.rol eq 'RESPONSAVEL' or loginBean.userLogado.rol eq 'EJECUTOR'}" outcome="/tarefas/minhasTarefas/minhastFechadas?faces-redirect=true"  />
+</h:form>
+</div>
+</header>
+
+
+<h:form>
+<p:growl id="messages" showDetail="true" showSummary="false" closable="true">
+   <p:autoUpdate />
+</p:growl>
+
+<p:menubar style="margin-top: -20px; margin-bottom: 20px">
+
+<p:menuitem value="Inicio" icon="ui-icon-home" action="/index?faces-redirect=true" />
+
+<p:menuitem value="Gestionar Responsavel"  icon="ui-icon-person" action="/pessoas/pessoas?faces-redirect=true"  rendered="#{loginBean.userLogado.rol eq 'ADMIN'}" />
+
+
+
+<p:submenu label="Gestionar" icon="ui-icon-gear" >
+<p:menuitem icon="ui-icon-person" value="Usuarios" action="/usuarios/listar?faces-redirect=true" />
+<p:menuitem icon=" ui-icon-suitcase" value="Produtos" action="/produtos/listar?faces-redirect=true" />
+</p:submenu>
+
+
+
+<p:menuitem icon="ui-icon-play" value="Criar Pedido" />
+
+
+<p:submenu label="Buscar Tarefas" icon="ui-icon-search" rendered="#{loginBean.userLogado.rol eq 'RESPONSAVEL'}">
+<p:menuitem icon="ui-icon-unlocked" value="Sem Aprovar" action="/tarefas/relatorios/tCreadas?faces-redirect=true"  />
+<p:menuitem icon="ui-icon-check" value="Sem Iniciar" action="/tarefas/relatorios/tAprovadas?faces-redirect=true"   />
+<p:menuitem icon="ui-icon-play" value="Inciadas" action="/tarefas/relatorios/tIniciadas?faces-redirect=true"  />
+<p:menuitem icon=" ui-icon-locked" value="Fechadas" action="/tarefas/relatorios/tFechadas?faces-redirect=true"  />
+</p:submenu>
+
+<p:menuitem icon="ui-icon-note" value="Tarefas" action="/tarefas/minhasTarefas/minhastCreadas?faces-redirect=true" rendered="#{loginBean.userLogado.rol eq 'CREADOR'}"/>
+
+
+<p:submenu label="Relatorios" icon="ui-icon-document" rendered="#{loginBean.userLogado.rol eq 'RESPONSAVEL'}">
+<p:submenu label="Resumen">
+<p:menuitem value="Responsavel" action="#{tarefaBean.gerarRelatorioTarefasAbertasbyPessoa}" ajax="false" target="_blank"/>
+<p:menuitem value="Proyeto" action="#{tarefaBean.gerarRelatorioTarefasAbertasbyProyeto}" ajax="false" target="_blank"/>
+<p:menuitem value="Tarefas Fechadas" action="#{tarefaBean.gerarRelatorioTarefasAll}" ajax="false" target="_blank"/>
+</p:submenu>
+<p:submenu label="Tarefas Fechadas">
+<p:menuitem value="Por Responsavel" action="/tarefas/relatorios/tarefasbyData?faces-redirect=true"  />
+
+</p:submenu>
+</p:submenu>
+
+
+
+
+
+
+
+
+<f:facet name="options"> 
+   <p:commandButton ajax="false" value="Sair" icon="ui-icon-power" action="#{loginBean.logout}" />
+</f:facet>
+</p:menubar>
+
+</h:form>
+
+
+<div id="conteudo">
+<ui:insert name="corpo" />
+</div>
+<footer>
+Cipoal &#169; 2018 by LioNani07
+</footer>
+</h:body>
+</html>

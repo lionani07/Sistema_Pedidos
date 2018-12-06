@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/template_aernnova.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+<f:viewAction action="#{tarefaBean.listarTarefasFechadas}" />
+<f:viewAction action="#{tarefaBean.cargarResponsavel}" />
+<f:viewAction action="#{tarefaBean.cargarSubLideres}" />
+</f:metadata>
+
+<ui:define name="corpo">
+<h:form>
+<p:growl id="growltap"  showDetail="false" showSummary="true" autoUpdate="true" />
+ <p:fieldset legend="Tarefas Fechadas: #{tarefaBean.tarefasFechadas.size()}" style="margin-bottom:20px">
+ 
+<p:dataTable id="tbltFechadas"  rendered="#{not empty tarefaBean.tarefasFechadas}" value="#{tarefaBean.tarefasFechadas}" widgetVar="tarefasTable" var="tarefa" rowKey="#{tarefa.id}" selectionMode="single"
+paginator="true" rows="20" paginatorPosition="top">
+
+<f:facet name="header">
+<div align="left">
+<p:commandButton value="Refrescar" icon="ui-icon-refresh" action="/tarefas/relatorios/tFechadas?faces-redirect=true" />
+</div>
+</f:facet>
+
+<p:column headerText="Codigo" style="text-align: center" sortBy="#{tarefa.id}" filterBy="#{tarefa.id}" filterMatchMode="contains">
+<h:outputText value="#{tarefa.id}" />
+</p:column>
+
+<p:column headerText="Titulo" filterBy="#{tarefa.titulo}" style="text-align:center" filterMatchMode="contains" colspan="2" >
+<h:outputText value="#{tarefa.titulo}" />
+</p:column>
+
+<p:column headerText="Responsavel" filterBy="#{tarefa.responsavel.id}" filterMatchMode="exact" style="width: 200px; text-align: center" >
+<f:facet name="filter">
+<p:selectOneMenu onchange="PF('tarefasTable').filter()">
+<f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+<f:selectItems value="#{tarefaBean.pessoas}" var="pessoa" itemValue="#{pessoa.id}" itemLabel="#{pessoa.nome}" />
+</p:selectOneMenu>
+</f:facet>
+<h:outputText value="#{tarefa.responsavel.nome}" />
+</p:column>
+
+<p:column headerText="Sub Lider" filterBy="#{tarefa.subLider.id}" filterMatchMode="exact" style="width: 200px; text-align: center" >
+<f:facet name="filter">
+<p:selectOneMenu onchange="PF('tarefasTable').filter()">
+<f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+<f:selectItems value="#{tarefaBean.subLideres}" var="pessoa" itemValue="#{pessoa.id}" itemLabel="#{pessoa.nome}" />
+</p:selectOneMenu>
+</f:facet>
+<h:outputText value="#{tarefa.subLider.nome}" />
+</p:column>
+
+<p:column headerText="Origen" style="text-align: center" filterBy="#{tarefa.origen}" filterMatchMode="exact">
+<f:facet name="filter">
+<p:selectOneMenu onchange="PF('tarefasTable').filter()">
+			<f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+           <f:selectItems value="#{tarefaBean.todosOrigen}" />
+</p:selectOneMenu>
+</f:facet>
+<h:outputText value="#{tarefa.origen.descricao}" />
+</p:column>
+
+<p:column headerText="Proyeto" filterBy="#{tarefa.proyeto.descricao}"  filterMatchMode="exact" style="text-align: center">
+   <f:facet name="filter">
+       <p:selectOneMenu onchange="PF('tarefasTable').filter()" >
+           <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+           <f:selectItems value="#{tarefaBean.todosProyetos}" />
+      </p:selectOneMenu>
+   </f:facet>
+<h:outputText value="#{tarefa.proyeto.descricao}" />
+</p:column>
+
+<p:column headerText="Prioridad" filterBy="#{tarefa.prioridad.descricao}" filterMatchMode="exact" style="text-align: center">
+<f:facet name="filter">
+       <p:selectOneMenu onchange="PF('tarefasTable').filter()" >
+           <f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+           <f:selectItems value="#{tarefaBean.todosPrioridades}" />
+      </p:selectOneMenu>
+   </f:facet>
+<h:outputText value="#{tarefa.prioridad.descricao}" />
+</p:column>
+
+<p:column headerText="Data Finalizaçao" style="text-align: center" sortBy="#{tarefa.dataFechada}">
+<h:outputText value="#{tarefa.dataFechada}">
+<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+</h:outputText>
+</p:column>
+
+<p:column style="width: 30px">
+<p:button  outcome="/galeriaview" rendered="#{tarefaBean.temFoto(tarefa.id) eq 'YES'}" icon="ui-icon-image" title="Ver imagens" >
+<f:param name="id" value="#{tarefa.id}" />
+</p:button>
+</p:column>
+
+<p:column headerText="Doc" style="text-align: center; width:30px" >
+<p:commandButton rendered="#{not empty tarefa.arquivo}" icon="ui-icon-circle-arrow-s" title="Download" action="#{tarefaBean.downloadArquivoTarefa}" ajax="false"  >
+<f:setPropertyActionListener value="#{tarefa}" target="#{tarefaBean.tarefaSelecionada}" />
+</p:commandButton>
+</p:column>
+
+<p:column style="width: 30px">
+<p:commandButton  title="ver" icon="ui-icon-comment" oncomplete="PF('detailsdiag').show()" update=":frm_detalleTarefa" >
+<f:setPropertyActionListener value="#{tarefa}" target="#{tarefaBean.tarefaSelecionada}" />
+</p:commandButton>
+</p:column>
+
+</p:dataTable>
+</p:fieldset>
+</h:form>
+
+<h:form id="frm_detalleTarefa">
+<p:dialog header="Detalles" widgetVar="detailsdiag" resizable="false" modal="true" showEffect="side" hideEffect="explode">
+<p:panelGrid columns="2" style="width:400px">
+
+<f:facet name="header">
+<div align="center">
+<h:outputText style="color:#008080"  value=" Tarefa: #{tarefaBean.tarefaSelecionada.titulo}" />
+<br/>
+<br/>
+</div>
+<div align="left">
+<p:outputLabel value="Creada por #{tarefaBean.tarefaSelecionada.nomeCreador()} - " />
+<h:outputText value="#{tarefaBean.tarefaSelecionada.dataCreacao}" >
+<f:convertDateTime pattern="dd/MM/yyyy" />
+</h:outputText>
+<br/>
+<p:outputLabel value="Aprovada por #{tarefaBean.tarefaSelecionada.responsavel.nome} - " />
+<h:outputText value="#{tarefaBean.tarefaSelecionada.dataAprovada}" >
+<f:convertDateTime pattern="dd/MM/yyyy" />
+</h:outputText>
+</div>
+</f:facet>
+
+<p:outputLabel value="Iniciada: " />
+<h:outputText value="#{tarefaBean.tarefaSelecionada.dataInicio}" >
+<f:convertDateTime pattern="dd/MM/yyyy" />
+</h:outputText>
+
+<p:outputLabel value="Fechada " />
+<h:outputText value="#{tarefaBean.tarefaSelecionada.dataFechada}" >
+<f:convertDateTime pattern="dd/MM/yyyy" />
+</h:outputText>
+
+<p:outputLabel value="Finalizada por " />
+<p:outputLabel value="#{tarefaBean.tarefaSelecionada.subLider.nome}" />
+
+
+<f:facet name="footer">
+<div align="left">
+<p:outputLabel style="color:#008080" value="Atendimento: #{tarefaBean.tarefaSelecionada.diasAtendimiento()} dias  "  />
+<br/>
+<h:outputText style="color:#808080" rendered="#{not empty tarefaBean.tarefaSelecionada.descricao}" value="Descriçao: #{tarefaBean.tarefaSelecionada.descricao}" />
+<br/>
+<p:outputLabel value="Ganho Estimado " />
+<h:outputText value="#{tarefaBean.tarefaSelecionada.valor_ganho}"  >
+<f:convertNumber pattern="R$ #,##0.00" />
+</h:outputText>
+<br/>
+<p:outputLabel value="Ganho Real " />
+<h:outputText value="#{tarefaBean.tarefaSelecionada.valorGanhoReal}"  >
+<f:convertNumber pattern="R$ #,##0.00" />
+</h:outputText>
+
+</div>
+</f:facet>
+
+</p:panelGrid>
+</p:dialog>
+</h:form>
+
+</ui:define>
+</ui:composition>

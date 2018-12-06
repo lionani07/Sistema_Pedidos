@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/template_aernnova.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+<ui:define name="corpo">
+
+<h:form id="buscador">
+<p:messages showDetail="false" showSummary="true" autoUpdate="true"  />
+
+<p:panelGrid columns="2">
+
+<f:facet name="header">
+<div align="left">
+<p:outputLabel value="Relatorio Responsavel Por Data" />
+</div>
+</f:facet>
+
+<p:outputLabel value="De" for="dataIncio" />
+<p:calendar  value="#{tarefaBean.tarefa.dataInicio}" id="dataIncio" pattern="dd/MM/yyyy" showOn="button" maxdate="#{tarefaBean.tarefa.dataFin}" required="true" >
+ <p:ajax event="dateSelect" update="datafin"/>
+ <p:ajax event="change" update="datafin"/>
+ <f:validator validatorId="dateValidator"/>
+</p:calendar>
+
+<p:outputLabel value="Até" for="datafin" />
+<p:calendar value="#{tarefaBean.tarefa.dataFin}" id="datafin" pattern="dd/MM/yyyy" showOn="button" mindate="#{tarefaBean.tarefa.dataInicio}" disabled="#{empty tarefaBean.tarefa.dataInicio}" required="true" >
+ <p:ajax event="dateSelect" update="dataIncio"/> 
+ <p:ajax event="change" update="dataIncio"/>
+ <f:validator validatorId="dateValidator"/>
+</p:calendar>
+
+<f:facet name="footer">
+<div align="right">
+<p:commandButton value="Gerar" icon="ui-icon-document" action="#{tarefaBean.gerarRelatorioFechadasPessoabyData}"  ajax="false" onclick="this.form.target='_blank'" />
+</div>
+</f:facet>
+
+</p:panelGrid>
+
+
+
+</h:form>
+
+</ui:define>
+</ui:composition>
