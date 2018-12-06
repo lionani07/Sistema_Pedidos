@@ -17,11 +17,17 @@ public class ProdutoRepository{
 		this.manager = JpaUtil.getEntityManager();
 	}
 	
-	public Boolean existe(String nome){		
-		TypedQuery<Long> query = this.manager.createQuery("Select Count(p) From Produto p Where p.nome=:nome", Long.class);
-		query.setParameter("nome", nome);
-		Long result =  query.getSingleResult();
-		return (result>0) ? true : false;
+	public Produto existe(String nome){	
+		Produto p = null;
+		try {			
+			TypedQuery<Produto> query = this.manager.createQuery("From Produto p Where p.nome=:nome", Produto.class);
+			query.setParameter("nome", nome);
+			p =  query.getSingleResult();
+			return p;
+		} catch (Exception e) {
+			return null;
+		}
+		
 	}
 	
 	public void adicionar(Produto produto){	
