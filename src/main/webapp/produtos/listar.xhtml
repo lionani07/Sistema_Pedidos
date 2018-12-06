@@ -14,7 +14,7 @@ xmlns:p="http://primefaces.org/ui">
 
 <h:form id="frm_produtos">
 
-<p:fieldset legend="Listado Produtos">
+<p:fieldset legend="Listado de Produtos">
 
 <p:dataTable id="datable_produtos" var="produto" value="#{produtoController.listaProdutos}" paginator="true"
 rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoController.productoSelect}" paginatorPosition="bottom" >
@@ -29,13 +29,13 @@ rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoCont
 
 <p:column headerText="Preço">
 <h:outputText value="#{produto.preco}" >
-<f:convertNumber pattern="R$#00.00" />
+<f:convertNumber pattern="R$ #,##0.00" />
 </h:outputText>
 </p:column>
 
 <p:column headerText="Preco de Compra">
 <h:outputText value="#{produto.precoMaximoCompra}" >
-<f:convertNumber pattern="R$#00.00" />
+<f:convertNumber pattern="R$ #,##0.00" />
 </h:outputText>
 </p:column>
 
