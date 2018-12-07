@@ -42,7 +42,7 @@ xmlns:p="http://primefaces.org/ui">
 </p:selectOneMenu>
 
 <f:facet name="footer">
-<p:commandButton value="Salvar"  icon="ui-icon-disk" action="#{usuarioController.adiciona}"  />
+<p:commandButton value="Salvar"  icon="ui-icon-disk" action="#{usuarioController.adiciona}" update=":frm_novoUsuario"  />
 <p:commandButton value="Cancelar" action="/usuarios/listar?faces-redirect=true" process="@this" icon="ui-icon-close"  />
 </f:facet>
 </p:panelGrid>

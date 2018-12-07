@@ -32,7 +32,20 @@ public class UsuarioRepository {
 		}
 
 	}
-
+	
+	public Usuario existe(Usuario usuario){	
+		Usuario u = null;
+		try {			
+			TypedQuery<Usuario> query = this.manager.createQuery("From Usuario u Where u.people=:people", Usuario.class);
+			query.setParameter("people", usuario.getPeople());			
+			u =  query.getSingleResult();
+			return u;
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
+	
 	public Usuario findById(Long id) {
 		try {
 			return this.manager.find(Usuario.class, id);

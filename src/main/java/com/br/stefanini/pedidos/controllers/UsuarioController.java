@@ -23,16 +23,11 @@ public class UsuarioController implements Serializable {
 	private Usuario usuarioSelect;
 	private UsuarioService usuarioService;
 	
-	private List<Usuario> listaUsuarios;
+	private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 		
-	public UsuarioController() {
-		this.usuario = new Usuario();
-		this.listaUsuarios = new ArrayList<Usuario>();
-		try {
-			this.usuarioService = new UsuarioService();
-		} catch (Exception e) {
-			mostrarMessageError(e.getMessage());
-		}
+	public UsuarioController() throws Exception {
+		this.usuario = new Usuario();		
+	    this.usuarioService = new UsuarioService();		
 	}
 	
 	public String adiciona(){
