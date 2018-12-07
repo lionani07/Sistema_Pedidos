@@ -19,6 +19,12 @@ xmlns:p="http://primefaces.org/ui">
 <p:dataTable id="datable_produtos" var="produto" value="#{produtoController.listaProdutos}" paginator="true"
 rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoController.productoSelect}" paginatorPosition="bottom" >
 
+<f:facet name="header">
+<div align="left">
+<p:commandButton icon="ui-icon-circle-plus" value="Novo" action="/produtos/novo?faces-redirect=true"  />
+</div>
+</f:facet>
+
 <p:column headerText="Código">
 <h:outputText value="#{produto.id}" />
 </p:column>
@@ -58,11 +64,6 @@ rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoCont
 
 </p:column>
 
-<f:facet name="header">
-<div align="left">
-<p:commandButton value="Novo" action="/produtos/novo?faces-redirect=true"  />
-</div>
-</f:facet>
 </p:dataTable>
 
 </p:fieldset>

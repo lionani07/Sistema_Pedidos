@@ -31,8 +31,9 @@ public class ProdutoRepository{
 	}
 	
 	public void adicionar(Produto produto){	
-		EntityTransaction trx = this.manager.getTransaction();
-		try {			
+		EntityTransaction trx = null;
+		try {
+			trx = this.manager.getTransaction();
 			trx.begin();		
 			this.manager.merge(produto);
 			trx.commit();			

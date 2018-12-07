@@ -6,16 +6,47 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
 
 <f:metadata>
-
+<f:viewAction action="#{usuarioController.listar}" />
 </f:metadata>
 
 
 <ui:define name="corpo">
 
 <h:form id="frm_usuarios">
-<p:growl showDetail="false" showSummary="true" autoUpdate="true" />
 
-usuarios
+<p:fieldset legend="Listado de Usuario">
+
+<p:dataTable id="datatable_usuarios" value="#{usuarioController.listaUsuarios}" var="usuario">
+
+<f:facet name="header">
+<div align="left"><p:commandButton icon="ui-icon-circle-plus" value="Novo" action="/usuarios/novo?faces-redirect=true" /></div>
+</f:facet>
+
+<p:column headerText="People">
+<h:outputText value="#{usuario.people}" />
+</p:column>
+
+<p:column headerText="Nome">
+<h:outputText value="#{usuario.nome}" />
+</p:column>
+
+<p:column headerText="email">
+<h:outputText value="#{usuario.email}" />
+</p:column>
+
+<p:column headerText="Dpto">
+<h:outputText value="#{usuario.departamento.descricao}" />
+</p:column>
+
+<p:column headerText="Estado">
+<h:outputText value="#{usuario.estado.descricao}" />
+</p:column>
+
+</p:dataTable>
+
+
+</p:fieldset>
+
 
 </h:form>
 

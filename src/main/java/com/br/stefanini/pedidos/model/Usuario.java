@@ -4,11 +4,14 @@ package com.br.stefanini.pedidos.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.br.stefanini.pedidos.model.enums.Departamento;
+import com.br.stefanini.pedidos.model.enums.EstadoUsuario;
 import com.br.stefanini.pedidos.model.enums.Rol;
 
 @Entity
@@ -23,8 +26,18 @@ public class Usuario implements Serializable {
 	private String senha;
 	private String email;	
 	
+	@Enumerated(EnumType.STRING)
 	private Rol rol;	
-	private Departamento departamento;
+	
+	@Enumerated(EnumType.STRING)
+	private Departamento departamento;	
+	
+	@Enumerated(EnumType.STRING)
+	private EstadoUsuario estado;
+	
+	public Usuario() {
+		this.estado = EstadoUsuario.ACTIVO;
+	}
 	
 	public Long getId() {
 		return id;
@@ -68,6 +81,15 @@ public class Usuario implements Serializable {
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
+	
+	public EstadoUsuario getEstado() {
+		return estado;
+	}
+	
+	public void setEstado(EstadoUsuario estado) {
+		this.estado = estado;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
