@@ -7,7 +7,7 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
 
 <f:metadata>
-<f:viewAction action="#{produtoController.listar}"></f:viewAction>
+<f:viewAction action="#{produtoController.listar}" />
 </f:metadata>
 
 <ui:define name="corpo">
@@ -46,13 +46,13 @@ rows="15" selectionMode="single" rowKey="#{produto.id}" selection="#{produtoCont
 </p:column>
 
 <p:column style="width:30px">
-<p:button icon="ui-icon-pencil" outcome="/produtos/novo">
+<p:button icon="ui-icon-pencil" title="Editar" outcome="/produtos/novo">
 <f:param name="id" value="#{produto.id}" />
 </p:button>
 </p:column>
 
 <p:column style="width:30px">
-<p:commandButton icon=" ui-icon-trash" update=":frm_produtos:datable_produtos" action="#{produtoController.delete}">
+<p:commandButton icon="ui-icon-trash" title="remove" update=":frm_produtos:datable_produtos" action="#{produtoController.delete}">
 <f:setPropertyActionListener value="#{produto}" target="#{produtoController.productoSelect}" />
 <p:confirm header="Eliminar Produto" message="Tem Certeza?" icon="ui-icon-alert" />
 

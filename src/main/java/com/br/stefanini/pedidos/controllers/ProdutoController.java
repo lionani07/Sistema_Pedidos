@@ -70,7 +70,7 @@ public class ProdutoController implements Serializable{
 		try {
 			this.produtoService.delete(this.productoSelect);
 			this.productoSelect = null;
-			mostrarMessage("Produto eliminado");
+			mostrarMessage("Produto removido");
 			listar();
 		} catch (Exception e) {
 			mostrarMessageError(e.getMessage());

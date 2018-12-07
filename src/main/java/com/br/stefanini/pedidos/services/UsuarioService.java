@@ -26,6 +26,15 @@ public class UsuarioService {
 		}
 		
 	}
+
+	public void delete(Usuario usuarioSelect) {
+		try {
+			repository.delete(usuarioSelect);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
+	}
 	
 	
 

@@ -35,16 +35,30 @@ public class UsuarioController implements Serializable {
 		}
 	}
 	
-	public void adiciona(){
+	public String adiciona(){
 		try {
 			this.usuarioService.adiciona(this.usuario);
 			this.usuario = new Usuario();
 			mostrarMessage("Usuario guardado");
+			return "/usuarios/listar?faces-redirect=true";
 		} catch (Exception e) {
 			mostrarMessageError(e.getMessage());
+			return null;
 		}
 		
 	}
+	
+	public void delete(){
+		try {
+			usuarioService.delete(this.usuarioSelect);
+			this.usuarioSelect = null;
+			mostrarMessage("Usuario removido");
+			listar();
+		} catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+		}
+	}
+	
 	
 	public void listar(){
 		try {
@@ -89,6 +103,7 @@ public class UsuarioController implements Serializable {
 	}
 	
 	private void mostrarMessage(String msg){	
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true); //Para mostrar message quanfo faco redirect	
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = new FacesMessage(msg);
 		context.addMessage(null, message);
