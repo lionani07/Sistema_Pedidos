@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/template.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+<f:viewParam name="id" value="#{usuarioController.usuario}" />
+</f:metadata>
+
+<ui:define name="corpo">
+
+<h:form id="frm_novoUsuario">
+
+<p:fieldset legend="Novo Usuario" style="width:400px">
+<p:panelGrid columns="2" style="width:400px">
+
+<p:outputLabel value="People" for="people" />
+<p:inputText id="people" value="#{usuarioController.usuario.people}" />
+
+<p:outputLabel value="Nome" for="nome" />
+<p:inputText id="nome" value="#{usuarioController.usuario.nome}" />
+
+<p:outputLabel value="Email" for="email"/>
+<p:inputText id="email" value="#{usuarioController.usuario.email}" />
+
+<p:outputLabel value="Senha" for="senha" />
+<h:inputSecret id="senha" value="#{usuarioController.usuario.senha}" />
+
+<p:outputLabel value="Rol" for="rol" />
+<p:selectOneMenu value="#{usuarioController.usuario.rol}" id="rol">
+<f:selectItem itemLabel="Seleccione Rol" noSelectionOption="true" />
+<f:selectItems value="#{usuarioController.roles}" var="rol" itemValue="#{rol}" itemLabel="#{rol.descricao}" />
+</p:selectOneMenu>
+
+<p:outputLabel value="Departamento" for="departamento" />
+<p:selectOneMenu id="departamento" value="#{usuarioController.usuario.departamento}">
+<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
+<f:selectItems value="#{usuarioController.departamentos}" var="dpto" itemValue="#{dpto}" itemLabel="#{dpto.descricao}" />
+</p:selectOneMenu>
+
+<f:facet name="footer">
+<p:commandButton value="Salvar"  icon="ui-icon-disk" action="#{usuarioController.adiciona}" update=":frm_novoUsuario"  />
+<p:commandButton value="Cancelar" action="/usuarios/listar?faces-redirect=true" process="@this" icon="ui-icon-close"  />
+</f:facet>
+</p:panelGrid>
+</p:fieldset>
+</h:form>
+
+</ui:define>
+</ui:composition>

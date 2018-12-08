@@ -53,13 +53,15 @@ public class ProdutoController implements Serializable{
 	}
 	
 
-	public void adicionar(){
+	public String adicionar(){
 		try {
 			this.produtoService.adiciona(this.produto);
 			this.produto = new Produto();
 			mostrarMessage("Produto salvado");
+			return "/produtos/listar?faces-redirect=true";
 		}catch (Exception e) {
 			mostrarMessageError(e.getMessage());
+			return null;
 		}
 		
 	}
@@ -68,7 +70,7 @@ public class ProdutoController implements Serializable{
 		try {
 			this.produtoService.delete(this.productoSelect);
 			this.productoSelect = null;
-			mostrarMessage("Produto eliminado");
+			mostrarMessage("Produto removido");
 			listar();
 		} catch (Exception e) {
 			mostrarMessageError(e.getMessage());
@@ -81,7 +83,8 @@ public class ProdutoController implements Serializable{
 	}
 		
 	
-	private void mostrarMessage(String msg){	
+	private void mostrarMessage(String msg){		
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true); //Para mostrar message quanfo faco redirect		
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = new FacesMessage(msg);
 		context.addMessage(null, message);
