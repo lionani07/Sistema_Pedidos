@@ -44,12 +44,7 @@ public class ProdutoService {
 	}
 
 	public void delete(Produto productoSelect) {
-		try {
-			repository.delete(productoSelect);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		
+		repository.delete(productoSelect);
 
 	}
 

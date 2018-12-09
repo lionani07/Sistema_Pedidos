@@ -95,7 +95,6 @@ public class Usuario implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((people == null) ? 0 : people.hashCode());
 		return result;
 	}
 
@@ -113,13 +112,10 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (people == null) {
-			if (other.people != null)
-				return false;
-		} else if (!people.equals(other.people))
-			return false;
 		return true;
 	}
+
+	
 
 	
 

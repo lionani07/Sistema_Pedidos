@@ -16,22 +16,24 @@ public class UsuarioService {
 	public void adiciona(Usuario usuario) {
 		if (!existe(usuario)) {
 			this.repository.adiciona(usuario);
-		} else {
-			throw new RuntimeException("Usuario existe");
 		}
+		else{
+			throw new RuntimeException("Usuario existe");
+		}		
 
 	}
 
 	public boolean existe(Usuario usuario) {
 		try {
-			Usuario usuarioBD = null;
-			usuarioBD = repository.existe(usuario);
-			if (usuarioBD != null) {
-				if (usuarioBD.equals(usuario)) {
-					return false;
-				} else {
-					return true;
+			List<Usuario> usuariosBD = null;
+			usuariosBD = repository.existe(usuario);
+			if (usuariosBD != null) {
+				for(Usuario u : usuariosBD){
+					if(!u.equals(usuario)){
+						return true;
+					}
 				}
+				return false;
 			}
 			return false;
 		} catch (Exception e) {

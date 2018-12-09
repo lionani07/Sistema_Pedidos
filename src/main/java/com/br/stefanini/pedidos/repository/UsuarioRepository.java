@@ -33,19 +33,20 @@ public class UsuarioRepository {
 
 	}
 	
-	public Usuario existe(Usuario usuario){	
-		Usuario u = null;
+	public List<Usuario> existe(Usuario usuario){	
+		List<Usuario> usuarios = null;
 		try {			
-			TypedQuery<Usuario> query = this.manager.createQuery("From Usuario u Where u.people=:people", Usuario.class);
-			query.setParameter("people", usuario.getPeople());			
-			u =  query.getSingleResult();
-			return u;
+			TypedQuery<Usuario> query = this.manager.createQuery("From Usuario u Where u.people=:people or u.email=:email", Usuario.class);
+			query.setParameter("people", usuario.getPeople());	
+			query.setParameter("email", usuario.getEmail());
+			 usuarios = query.getResultList();
+			return usuarios;
 		} catch (Exception e) {
 			return null;
 		}
 		
 	}
-	
+		
 	public Usuario findById(Long id) {
 		try {
 			return this.manager.find(Usuario.class, id);
