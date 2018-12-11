@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+	<f:viewAction action="#{produtoController.listar}"></f:viewAction>
+	</f:metadata>
+
+	<ui:define name="corpo">
+		<p:fieldset legend="Novo Pedido">
+			<h:form id="frm_novoPedido">
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="Salvar" process="@this capaPanel"
+							update="@form" />
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<div class="ui-fluid">
+					<p:panelGrid id="capaPanel" columns="4" layout="grid"
+						style="margin-top: 20px; margin-bottom: 40px"
+						styleClass="panelgrid-noborder"
+						columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4">
+
+						<p:outputLabel value="Descricao" for="descricao" />
+						<p:inputText id="descricao" />
+
+					</p:panelGrid>
+				</div>
+
+				<p:commandButton value="Novo produto"
+					oncomplete="PF('itemDialog').show()" process="@this"
+					update="itemPanel">
+					<p:resetInput target="itemPanel" />
+				</p:commandButton>
+
+				<p:dataTable id="itensTable" var="iten" value="#{pedidoController.pedido.itens}" emptyMessage="Nenhum produto adicionado."
+					reflow="true" style="margin-top: 10px">
+
+					<p:column headerText="Nome">
+					<h:outputText value="#{iten.produto.nome}" />
+					</p:column>
+
+					<p:column headerText="Preco">
+
+					</p:column>
+
+					<p:column headerText="Preco Maximo de Compra">
+
+					</p:column>
+					
+					<p:column headerText="Quantidade">
+
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dialog widgetVar="itemDialog" header="Novo produto"
+					resizable="false" style="min-width: 300px" responsive="true">
+
+					<h:panelGroup id="itemPanel" layout="block" styleClass="ui-fluid">
+						<p:messages id="msgDialog" autoUpdate="false" />
+
+						<p:panelGrid columns="2" layout="grid"
+							styleClass="panelgrid-noborder"
+							columnClasses="ui-grid-col-4, ui-grid-col-8">
+							
+
+							<p:outputLabel value="Tipo" for="tipo" />
+							<p:selectOneMenu id="tipo" >
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItems value="#{produtoController.listaProdutos}" var="produto" itemLabel="#{produto.nome}" />								
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Quantidade" />
+							<p:inputText />
+
+							<p:outputLabel />
+							<p:commandButton value="Adicionar" />
+
+						</p:panelGrid>
+
+					</h:panelGroup>
+
+				</p:dialog>
+
+			</h:form>
+		</p:fieldset>
+	</ui:define>
+</ui:composition>

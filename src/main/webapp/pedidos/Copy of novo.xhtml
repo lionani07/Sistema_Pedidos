@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/template.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+
+</f:metadata>
+
+<ui:define name="corpo">
+
+<h:form id="frm_novoPedido">
+
+<p:fieldset legend="Novo pedido" style="width:400px">
+
+<p:panelGrid columns="2" style="width:400px">
+
+<p:outputLabel value="numero" for="numero" />
+<p:inputText id="numero" />
+
+<p:outputLabel value="Descricao" for="descricao" />
+<p:inputText id="descricao"  />
+
+<p:dataTable>
+Item de pedido
+</p:dataTable>
+
+
+<f:facet name="footer">
+<p:commandButton value="Salvar"  icon="ui-icon-disk" update=":frm_novoPedido" />
+<p:commandButton value="Cancelar" action="/pedidos/listar?faces-redirect=true" process="@this" icon="ui-icon-close"  />
+</f:facet>
+</p:panelGrid>
+</p:fieldset>
+</h:form>
+
+</ui:define>
+</ui:composition>

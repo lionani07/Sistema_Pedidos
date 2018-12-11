@@ -61,7 +61,7 @@ xmlns:p="http://primefaces.org/ui">
 
 
 
-<p:menuitem icon="ui-icon-play" value="Criar Pedido" />
+<p:menuitem icon="ui-icon-play" value="Criar Pedido" action="/pedidos/novo?faces-redirect=true" />
 
 
 <p:submenu label="Buscar Tarefas" icon="ui-icon-search" rendered="#{loginBean.userLogado.rol eq 'RESPONSAVEL'}">
