@@ -38,19 +38,23 @@
 					<p:resetInput target="itemPanel" />
 				</p:commandButton>
 
-				<p:dataTable id="itensTable" var="iten" value="#{pedidoController.pedido.itens}" emptyMessage="Nenhum produto adicionado."
+				<p:dataTable id="itensTable" var="iten" value="#{pedidoController.getItems()}" emptyMessage="Nenhum produto adicionado."
 					reflow="true" style="margin-top: 10px">
 
 					<p:column headerText="Nome">
-					<h:outputText value="#{iten.produto.nome}" />
+					<h:outputText value="#{iten.nome}" />
 					</p:column>
 
 					<p:column headerText="Preco">
-
+					<h:outputText value="#{iten.preco}" >
+					<f:convertNumber pattern="R$ #,##0.00" />
+					</h:outputText>
 					</p:column>
 
 					<p:column headerText="Preco Maximo de Compra">
-
+					<h:outputText value="#{iten.precoMaximoCompra}" >
+					<f:convertNumber pattern="R$ #,##0.00" />
+					</h:outputText>
 					</p:column>
 					
 					<p:column headerText="Quantidade">
@@ -60,7 +64,7 @@
 				</p:dataTable>
 
 				<p:dialog widgetVar="itemDialog" header="Novo produto"
-					resizable="false" style="min-width: 300px" responsive="true">
+					resizable="false" style="min-width: 400px" responsive="true">
 
 					<h:panelGroup id="itemPanel" layout="block" styleClass="ui-fluid">
 						<p:messages id="msgDialog" autoUpdate="false" />
@@ -71,16 +75,19 @@
 							
 
 							<p:outputLabel value="Tipo" for="tipo" />
-							<p:selectOneMenu id="tipo" >
+							<p:selectOneMenu id="tipo" value="#{pedidoController.produto}" filter="true" filterMatchMode="contains" >
 								<f:selectItem itemLabel="Selecione" />
-								<f:selectItems value="#{produtoController.listaProdutos}" var="produto" itemLabel="#{produto.nome}" />								
+								<f:selectItems value="#{produtoController.listaProdutos}" itemValue="#{produto}" var="produto" itemLabel="#{produto.nome}" />								
 							</p:selectOneMenu>
 
 							<p:outputLabel value="Quantidade" />
 							<p:inputText />
 
 							<p:outputLabel />
-							<p:commandButton value="Adicionar" />
+							<p:commandButton value="Adicionar" action="#{pedidoController.addItem}"
+							process="itemPanel" update="itemPanel itensTable"
+							oncomplete="if (!args.validationFailed) PF('itemDialog').hide()"
+							 />
 
 						</p:panelGrid>
 

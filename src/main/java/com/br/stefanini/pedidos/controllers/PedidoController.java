@@ -1,28 +1,44 @@
 package com.br.stefanini.pedidos.controllers;
 
-import javax.faces.bean.ManagedBean;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.br.stefanini.pedidos.model.ItemPedido;
-import com.br.stefanini.pedidos.model.Pedido;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
 import com.br.stefanini.pedidos.model.Produto;
 
 @ManagedBean
-public class PedidoController {
+@ViewScoped
+public class PedidoController implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	private Pedido pedido;	
-	private ItemPedido itemPedido;
+	private List<Produto> itens = new ArrayList<Produto>();
+	
+	private Produto produto = new Produto();
 	
 
 	public PedidoController() {
-		this.pedido = new Pedido();
+		
 	}
 	
-	public void addItem(Produto p){
-		this.pedido.getItems().add(itemPedido);
+	
+	public List<Produto> getItems() {
+		return itens;
 	}
 	
-	public Pedido getItems() {
-		return pedido;
+	public void addItem(){
+		getItems().add(this.produto);
+		this.produto = new Produto();
+	}
+	
+	public Produto getProduto() {
+		return produto;
+	}
+	
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 
 }
