@@ -26,19 +26,11 @@ xmlns:p="http://primefaces.org/ui">
 <p:outputLabel value="Email" for="email"/>
 <p:inputText id="email" value="#{usuarioController.usuario.email}" />
 
-<p:outputLabel value="Senha" for="senha" />
-<h:inputSecret id="senha" value="#{usuarioController.usuario.senha}" />
 
 <p:outputLabel value="Rol" for="rol" />
 <p:selectOneMenu value="#{usuarioController.usuario.rol}" id="rol">
 <f:selectItem itemLabel="Seleccione Rol" noSelectionOption="true" />
 <f:selectItems value="#{usuarioController.roles}" var="rol" itemValue="#{rol}" itemLabel="#{rol.descricao}" />
-</p:selectOneMenu>
-
-<p:outputLabel value="Departamento" for="departamento" />
-<p:selectOneMenu id="departamento" value="#{usuarioController.usuario.departamento}">
-<f:selectItem itemLabel="Seleccione Departamento" noSelectionOption="true" />
-<f:selectItems value="#{usuarioController.departamentos}" var="dpto" itemValue="#{dpto}" itemLabel="#{dpto.descricao}" />
 </p:selectOneMenu>
 
 <f:facet name="footer">

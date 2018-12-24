@@ -3,9 +3,8 @@
 	<persistence-unit name="PedidosStefanini">	
 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>com.br.stefanini.pedidos.model.Usuario</class>
-		<class>com.br.stefanini.pedidos.model.Produto</class>
-		<class>com.br.stefanini.pedidos.model.Pedido</class>
-		<class>com.br.stefanini.pedidos.model.ItemPedido</class>
+		<class>com.br.stefanini.pedidos.model.Solicitacao</class>
+		<class>com.br.stefanini.pedidos.model.EstadoSolicitacao</class>
 		
 	<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/pedStefanini" />

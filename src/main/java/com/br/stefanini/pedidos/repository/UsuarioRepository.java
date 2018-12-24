@@ -14,9 +14,9 @@ public class UsuarioRepository {
 	private EntityManager manager = null;
 
 	public UsuarioRepository() throws Exception {
-		if (this.manager == null) {
-			this.manager = JpaUtil.getEntityManager();
-		}
+		if(this.manager==null){
+			this.manager = JpaUtil.getEntityManager();		
+		}		
 	}
 
 	public void adiciona(Usuario usuario) {
@@ -79,5 +79,20 @@ public class UsuarioRepository {
 		}
 
 	}
+
+	public Usuario getPessoaLogin(String people, String senha) {		
+		Usuario usuario = null;
+		try {
+		TypedQuery<Usuario> query = this.manager.createQuery("from Usuario u where u.people = :people and u.senha=:senha",
+				Usuario.class);
+				query.setParameter("people", people);
+				query.setParameter("senha", senha);
+				usuario = query.getSingleResult();
+				return usuario;
+			} catch (Exception e) {
+				return null;
+			}
+
+		}	
 
 }

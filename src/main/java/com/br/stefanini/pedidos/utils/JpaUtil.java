@@ -12,9 +12,9 @@ public class JpaUtil {
 		try {
 			if(factory==null){
 				factory = Persistence.createEntityManagerFactory("PedidosStefanini");
-			}			
+			}								
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
 		}
 
 	}

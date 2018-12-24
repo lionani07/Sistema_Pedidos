@@ -10,9 +10,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import com.br.stefanini.pedidos.model.Usuario;
-import com.br.stefanini.pedidos.model.enums.Departamento;
 import com.br.stefanini.pedidos.model.enums.Rol;
 import com.br.stefanini.pedidos.services.UsuarioService;
+import com.br.stefanini.pedidos.utils.Utils;
 
 @ManagedBean
 @ViewScoped
@@ -25,13 +25,14 @@ public class UsuarioController implements Serializable {
 	
 	private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 		
-	public UsuarioController() throws Exception {
+	public UsuarioController() throws Exception{		
 		this.usuario = new Usuario();		
-	    this.usuarioService = new UsuarioService();		
+		this.usuarioService = new UsuarioService();
 	}
 	
 	public String adiciona(){
 		try {
+			this.usuario.setSenha(Utils.encriptar(this.usuario.getPeople()));
 			this.usuarioService.adiciona(this.usuario);
 			this.usuario = new Usuario();
 			mostrarMessage("Usuario guardado");
@@ -83,10 +84,6 @@ public class UsuarioController implements Serializable {
 	
 	public Rol[] getRoles(){
 		return Rol.values();
-	}
-	
-	public Departamento[] getDepartamentos(){
-		return Departamento.values();
 	}
 	
 	public List<Usuario> getListaUsuarios() {

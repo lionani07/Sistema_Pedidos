@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<ui:composition template="/WEB-INF/template/template_aernnova.xhtml"
+<ui:composition template="/WEB-INF/template/template.xhtml"
 xmlns="http://www.w3.org/1999/xhtml"
 xmlns:f="http://xmlns.jcp.org/jsf/core"
 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -7,7 +7,8 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
 
 <f:metadata>
-<f:viewParam name="id" value="#{tarefaBean.tarefaSelecionada}" />
+<f:viewParam name="id" value="#{solicitacaoController.solicitacaoSelect}" />
+<f:viewAction action="#{solicitacaoController.mostrarImage}" />
 </f:metadata>
 
 
@@ -15,39 +16,44 @@ xmlns:p="http://primefaces.org/ui">
 <h:form id="frm_galeria">
 <p:growl id="growltap"  showDetail="false" showSummary="true" autoUpdate="true" />
 <div align="center">
-<p:fieldset legend="Tarefa: #{tarefaBean.tarefaSelecionada.titulo}" style="width:780px" >
+<p:fieldset legend="Solicitaçao #{solicitacaoController.solicitacaoSelect.id}" style="width:780px" >
 
-<p:galleria  value="#{tarefaBean.images}" var="image" panelWidth="774" panelHeight="400" autoPlay="false"  >
-   				 <p:graphicImage value="/temp/#{image}" width="774" height="400" />   				  
-   				
-</p:galleria>
+<p:graphicImage value="/temp/#{solicitacaoController.solicitacaoSelect.id}.jpg" width="774" height="400" />  
 
-<p:dialog widgetVar="dlgDeleteFoto" resizable="false" modal="true" showEffect="side" hideEffect="explode">
-<p:dataTable value="#{tarefaBean.images}" var="image" style="width:350px" >
-
-<p:column>
-<p:graphicImage value="/temp/#{image}" width="75" height="50" /> 
-</p:column>
-
-<p:column style="width: 30px">
-<p:commandButton rendered="#{tarefaBean.canDeleteFoto(image)}"  icon="ui-icon-trash" action="#{tarefaBean.deleteFoto(image)}" update="frm_galeria" >
-<p:confirm header="Eliminar Foto" message="Tem Certeza?" icon="ui-icon-alert" />
+<p:commandButton icon="ui-icon-circle-check"  title="Aprovar" oncomplete="PF('dlgAprobar').show();" process="@this" >
+<p:resetInput target="frm_aprobar"></p:resetInput>
 </p:commandButton>
-<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
-			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-			        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-</p:confirmDialog>
 
-</p:column>
-
-</p:dataTable>
-</p:dialog>
-
-<p:button rendered="#{tarefaBean.tarefaSelecionada.estado eq 'INICIADA'}"  icon="ui-icon-arrowrefresh-1-e" outcome="/tarefas/minhasTarefas/minhastIniciadas" />
-<p:button rendered="#{tarefaBean.tarefaSelecionada.estado eq 'FECHADA'}" icon="ui-icon-arrowrefresh-1-e" outcome="/tarefas/minhasTarefas/minhastFechadas" />
-<p:commandButton rendered="#{tarefaBean.tarefaSelecionada.estado eq 'INICIADA'}"  icon="ui-icon-trash" oncomplete="PF('dlgDeleteFoto').show()" />
+<p:commandButton icon="ui-icon-circle-close"  title="Cancelar" oncomplete="PF('dlgCancelar').show();" process="@this" >
+<p:resetInput target="frm_cancelar"></p:resetInput>
+</p:commandButton>
 </p:fieldset>
 </div>
+</h:form>
+
+<h:form id="frm_aprobar">
+<p:dialog header="Aprovar Solicitacao: #{solicitacaoController.solicitacaoSelect.id}" widgetVar="dlgAprobar" minHeight="40" resizable="false" modal="true" showEffect="side" hideEffect="explode">	
+	
+	<p:outputLabel value="Descricao" for="descricaoa" /><br/>
+	<hr/>   
+    <p:inputTextarea cols="50" rows="5" id="descricaoa" value="#{solicitacaoController.estadoSolicitacao.descricao}"/>
+    
+    <f:facet name="footer">
+    	<p:commandButton icon="ui-icon-circle-check"  title="Aprovar" action="#{solicitacaoController.aprovarSolicitacao}" />
+    </f:facet>
+</p:dialog>
+</h:form>
+
+<h:form id="frm_cancelar">
+<p:dialog header="Cancelar Solicitacao : #{solicitacaoController.solicitacaoSelect.id}"  widgetVar="dlgCancelar" minHeight="40" resizable="false" modal="true" showEffect="side" hideEffect="explode">
+	
+	<p:outputLabel value="Descricao" for="descricao" /><br/><hr/>   
+    <p:inputTextarea cols="50" rows="5" id="descricao" value="#{solicitacaoController.estadoSolicitacao.descricao}"/>
+    
+    <f:facet name="footer">
+    	<p:commandButton icon="ui-icon-circle-close" title="Cancelar" action="#{solicitacaoController.cancelarSolicitacao}" />
+    </f:facet>
+</p:dialog>
 </h:form>
 </ui:define>
 </ui:composition>

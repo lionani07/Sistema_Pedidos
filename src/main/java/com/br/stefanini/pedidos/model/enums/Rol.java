@@ -1,9 +1,10 @@
 package com.br.stefanini.pedidos.model.enums;
 
-public enum Rol {
-	ADMIN("Administrador"),
-	GERENTE("Gerente"),
-	COMERCIA("Comercial");
+public enum Rol {	
+	ESTOQUE("Estoque"),
+	COMERCIAL("Comercial"),
+	GERENTE("Gerente"),	
+	ADMIN("Admin");
 	
 	private String descricao;
 	

@@ -5,17 +5,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.br.stefanini.pedidos.model.Produto;
-import com.br.stefanini.pedidos.repository.ProdutoRepository;
+import com.br.stefanini.pedidos.model.Solicitacao;
+import com.br.stefanini.pedidos.repository.SolicitacaoRepository;
 
-@FacesConverter(forClass = Produto.class)
-public class ProdutoConverter implements Converter {
+@FacesConverter(forClass = Solicitacao.class)
+public class SolicitacaoConverter implements Converter {
 	
-	private ProdutoRepository repository;
+	private SolicitacaoRepository repository;
 	
-	public ProdutoConverter() {
+	public SolicitacaoConverter() {
 		try {
-			this.repository = new ProdutoRepository();
+			this.repository = new SolicitacaoRepository();
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -23,36 +23,36 @@ public class ProdutoConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String value) {
-		Produto produto = null;		
+		Solicitacao solicitacao = null;		
 		try {			
 			if (value != null && !"".equals(value)) {
 				try {
-					produto = this.repository.findById(new Integer(value));					
+					solicitacao = this.repository.findById(new Integer(value));					
 				} catch (Exception e) {					
 					throw new RuntimeException("error ao convertir" + value.toString());
 				}
 
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("error ao convertir Produto");
+			throw new RuntimeException("error ao convertir Solicitacao");
 		}
-		return produto;
+		return solicitacao;
 	}
 
 	@Override
 	public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object value) {
 		try {
 			if (value != null) {
-				Produto produto = (Produto) value;
-				if (produto.getId() == null) {
+				Solicitacao solicitacao = (Solicitacao) value;
+				if (solicitacao.getId() == null) {
 					return null;
 				} else {
-					return ((Produto) value).getId().toString();
+					return ((Solicitacao) value).getId().toString();
 				}
 			}
 			return null;
 		} catch (Exception e) {
-			throw new RuntimeException("error ao convertir Produto");
+			throw new RuntimeException("error ao convertir Solicitacao");
 		}
 			
 	}

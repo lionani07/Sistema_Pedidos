@@ -7,10 +7,12 @@ import com.br.stefanini.pedidos.repository.UsuarioRepository;
 
 public class UsuarioService {
 
-	private UsuarioRepository repository;
+	private UsuarioRepository repository = null;
 
 	public UsuarioService() throws Exception {
-		this.repository = new UsuarioRepository();
+		if(this.repository==null){
+			this.repository = new UsuarioRepository();
+		}		
 	}
 
 	public void adiciona(Usuario usuario) {
@@ -58,6 +60,15 @@ public class UsuarioService {
 			throw new RuntimeException(e.getMessage());
 		}
 
+	}
+	
+	public Usuario getPessoaLogin(String people, String senha){
+		try {
+			return this.repository.getPessoaLogin(people, senha);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
 	}
 
 }

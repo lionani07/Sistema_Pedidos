@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/template.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+<f:viewParam name="id" value="#{solicitacaoController.solicitacao}" />
+</f:metadata>
+
+<ui:define name="corpo">
+
+<h:form id="frm_novaSolicitacao">
+
+<p:fieldset legend="Solicitaçao" style="width:600px">
+
+<p:panelGrid  style="width:600px">
+<p:row>  
+  <p:column colspan="2">
+  <p:outputLabel value="Descriçao" for="descricao" /><br/><br/>
+  	<p:inputTextarea rows="5" cols="80" value="#{solicitacaoController.solicitacao.descricao}" id="descricao" />
+  </p:column>
+</p:row>
+
+<p:row>  
+  <p:column colspan="2">
+  	 <p:fileUpload fileUploadListener="#{solicitacaoController.processFileUpload}"
+         label="Escolher" cancelLabel="Cancelar" sizeLimit="1000000"
+         invalidSizeMessage="Imagem muito grande" 
+         invalidFileMessage="Tipo de imagem não suportado"
+         allowTypes="/(\.|\/)(jpe?g|png)$/" mode="advanced"  update="fotoActual" /> 
+  </p:column>
+</p:row>
+
+<p:row>  
+  <p:column colspan="2">
+    <p:panelGrid id="fotoActual"  columns="2" style="width:590px" >
+  	<f:facet name="header"><h:outputText style="color:green" rendered="#{not empty solicitacaoController.fotoActual}" value="Dados arquivo"  /></f:facet>               	
+  	<p:outputLabel value="Nome:" rendered="#{not empty solicitacaoController.fotoActual}" />
+	<h:outputText value="#{solicitacaoController.fotoActual}" rendered="#{not empty solicitacaoController.fotoActual}" />
+	<p:outputLabel value="Size:" rendered="#{not empty solicitacaoController.fotoActual}" />
+	<h:outputText value="#{solicitacaoController.sizeFotoActual} KB" rendered="#{not empty solicitacaoController.fotoActual}" /> 
+	</p:panelGrid> 
+  </p:column>
+</p:row>
+
+<f:facet name="footer">
+<p:row>
+<p:column colspan="2">
+<p:commandButton value="Salvar" action="#{solicitacaoController.adicionar}"  icon="ui-icon-disk" update=":frm_novaSolicitacao" />
+<p:commandButton value="Cancelar" action="/solicitacao/listar?faces-redirect=true" process="@this" icon="ui-icon-close"  />
+</p:column>
+</p:row>
+</f:facet>
+
+</p:panelGrid>
+</p:fieldset>
+</h:form>
+
+</ui:define>
+</ui:composition>

@@ -16,11 +16,11 @@ xmlns:p="http://primefaces.org/ui">
 
 <p:fieldset legend="Listado de Usuario">
 
-<p:dataTable id="datatable_usuarios" value="#{usuarioController.listaUsuarios}" var="usuario" paginator="true" rowKey="#{usuario.id}"
+<p:dataTable style="text-align:center" id="datatable_usuarios" value="#{usuarioController.listaUsuarios}" var="usuario" paginator="true" rowKey="#{usuario.id}"
 selection="#{usuarioController.usuarioSelect}" selectionMode="single" rows="15" paginatorPosition="bottom">
 
 <f:facet name="header">
-<div align="left"><p:commandButton icon="ui-icon-circle-plus" value="Novo" action="/usuarios/novo?faces-redirect=true" /></div>
+<div align="left"><p:commandButton icon="ui-icon-circle-plus" value="Criar" action="/usuarios/novo?faces-redirect=true" /></div>
 </f:facet>
 
 <p:column headerText="People">
@@ -33,10 +33,6 @@ selection="#{usuarioController.usuarioSelect}" selectionMode="single" rows="15" 
 
 <p:column headerText="email">
 <h:outputText value="#{usuario.email}" />
-</p:column>
-
-<p:column headerText="Departamento">
-<h:outputText value="#{usuario.departamento.descricao}" />
 </p:column>
 
 <p:column headerText="Rol">
@@ -54,9 +50,9 @@ selection="#{usuarioController.usuarioSelect}" selectionMode="single" rows="15" 
 </p:column>
 
 <p:column style="width:30px">
-<p:commandButton title="remove" icon="ui-icon-trash" action="#{usuarioController.delete}" update=":frm_usuarios:datatable_usuarios">
+<p:commandButton title="excluir" icon="ui-icon-trash" action="#{usuarioController.delete}" update=":frm_usuarios:datatable_usuarios">
 <f:setPropertyActionListener value="#{usuario}" target="#{usuarioController.usuarioSelect}" />
-<p:confirm header="Eliminar Usuario" message="Tem Certeza?" icon="ui-icon-alert" />
+<p:confirm header="Excluir Usuario" message="Tem Certeza?" icon="ui-icon-alert" />
 </p:commandButton>
 
   <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >

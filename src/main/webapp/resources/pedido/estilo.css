@@ -67,7 +67,7 @@ width: 100%
 }
 
 .body-login {
-background-image:url(#{request.contextPath}/resources/aernnova/images/login.jpg);
+background-image:url(#{request.contextPath}/resources/pedido/images/login.jpg);
  background-color: #cccccc; /* Used if the image is unavailable */
  height: auto; /* You must set a specified height */
  background-position: center; /* Center the image */

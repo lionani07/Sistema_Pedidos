@@ -1,24 +1,20 @@
-//package com.br.stefanini.pedidos.controllers;
-/*package com.br.aernnova.controller;
+package com.br.stefanini.pedidos.controllers;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.br.aernnova.dao.PessoaDao;
-import com.br.aernnova.model.Pessoa;
-import com.br.aernnova.services.PessoaService;
+import com.br.stefanini.pedidos.model.Usuario;
+import com.br.stefanini.pedidos.services.UsuarioService;
+import com.br.stefanini.pedidos.utils.Utils;
+
 
 @ManagedBean
 @SessionScoped
@@ -26,30 +22,34 @@ public class LoginBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Pessoa userLogado;
+	private Usuario userLogado;
 	private String people;
 	private String senha;
 	
-	private PessoaService pessoaService;	
+	private UsuarioService usuarioService;	
 	
-	public LoginBean() {
-		this.pessoaService = new PessoaService();		
+	public LoginBean(){
+		try {
+			this.usuarioService = new UsuarioService();		
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
-	public Pessoa getUserLogado() {
-		return this.userLogado;
+	public Usuario getUserLogado() {
+		return userLogado;
 	}	
-	public void setUserLogado(Pessoa userLogado) {
+	public void setUserLogado(Usuario userLogado) {
 		this.userLogado = userLogado;
 	}
-
+	
 	public String login(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		HttpServletResponse rp = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);			
 		try {
-			String senhaEncrip = this.pessoaService.encriptar(this.senha);				
-			this.userLogado = this.pessoaService.getPessoaLogin(this.people, senhaEncrip);					
+			String senhaEncrip = Utils.encriptar(this.senha);				
+			this.userLogado = this.usuarioService.getPessoaLogin(this.people, senhaEncrip);					
 			if(this.userLogado!=null){	
 				ses.setAttribute("user", this.userLogado);
 				ses.setAttribute("rol", this.userLogado.getRol());				
@@ -96,4 +96,4 @@ public class LoginBean implements Serializable {
 		this.senha = senha;
 	}
 
-}*/
+}

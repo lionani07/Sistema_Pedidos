@@ -9,8 +9,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-import com.br.stefanini.pedidos.model.enums.Departamento;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.br.stefanini.pedidos.model.enums.EstadoUsuario;
 import com.br.stefanini.pedidos.model.enums.Rol;
 
@@ -21,21 +24,29 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message="People é obrigatório")
 	private String people;
+	
+	private String senha;
+	
+	@NotBlank(message="Nome é obrigatório")
 	private String nome;
-	private String senha;	
+	
+	@NotBlank(message="Email é obrigatório")
+	@Email(message="Formato de email incorreto")	
 	private String email;	
 	
+	@NotNull(message="Rol e obrigatório")
 	@Enumerated(EnumType.STRING)
 	private Rol rol;	
 	
 	@Enumerated(EnumType.STRING)
-	private Departamento departamento;	
-	
-	@Enumerated(EnumType.STRING)
 	private EstadoUsuario estado;
 	
-	public Usuario() {
+	
+	
+	public Usuario(){						
 		this.estado = EstadoUsuario.ACTIVO;
 	}
 	
@@ -51,18 +62,21 @@ public class Usuario implements Serializable {
 	public void setPeople(String people) {
 		this.people = people;
 	}
+	
+	public String getSenha() {
+		return senha;
+	}
+	
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+	}	
 	public String getEmail() {
 		return email;
 	}
@@ -75,13 +89,7 @@ public class Usuario implements Serializable {
 	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
-	public Departamento getDepartamento() {
-		return departamento;
-	}
-	public void setDepartamento(Departamento departamento) {
-		this.departamento = departamento;
-	}
-	
+		
 	public EstadoUsuario getEstado() {
 		return estado;
 	}
