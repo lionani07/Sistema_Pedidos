@@ -38,15 +38,20 @@ public class SolicitacaoRepository{
 	}
 
 	public List<Solicitacao> listar(Usuario usuario) {
-		TypedQuery<Solicitacao> query = this.manager.createQuery("from Solicitacao s where s.estadoActual=:estadoActual", Solicitacao.class);
+		TypedQuery<Solicitacao> query = this.manager.createQuery("from Solicitacao", Solicitacao.class);
 		if(usuario.getRol().equals(Rol.ESTOQUE)){
-			query.setParameter("estadoActual", areaEstado.ESTOQUE);
+			query = this.manager.createQuery("from Solicitacao s where s.estadoActual=:estoque or s.estadoActual=:aprovado or s.estadoActual=:cancelado", Solicitacao.class);
+			query.setParameter("estoque", areaEstado.ESTOQUE);
+			query.setParameter("aprovado", areaEstado.APROVADO);
+			query.setParameter("cancelado", areaEstado.CANCELADO);
 		}
 		if(usuario.getRol().equals(Rol.COMERCIAL)){
-			query.setParameter("estadoActual", areaEstado.COMERCIAL);
+			query = this.manager.createQuery("from Solicitacao s where s.estadoActual=:comercial", Solicitacao.class);
+			query.setParameter("comercial", areaEstado.COMERCIAL);
 		}
 		if(usuario.getRol().equals(Rol.GERENTE)){
-			query.setParameter("estadoActual", areaEstado.GERENTE);
+			query = this.manager.createQuery("from Solicitacao s where s.estadoActual=:gerente", Solicitacao.class);
+			query.setParameter("gerente", areaEstado.GERENTE);
 		}		
 		return query.getResultList();
 	}
@@ -66,6 +71,17 @@ public class SolicitacaoRepository{
 			throw new RuntimeException(e.getMessage());
 		}
 		
+	}
+
+
+	public Integer totalAprovadas() {		
+			TypedQuery<Long> query = this.manager
+					.createQuery(
+							"SELECT COUNT(s) FROM Solicitacao s where s.estadoActual=:aprovado",
+							Long.class);
+			query.setParameter("aprovado", areaEstado.APROVADO);			
+			Long total = query.getSingleResult();
+			return Integer.parseInt(total.toString());
 	}
 	
 

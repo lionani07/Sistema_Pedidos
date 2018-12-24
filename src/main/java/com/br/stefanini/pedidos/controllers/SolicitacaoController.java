@@ -113,6 +113,14 @@ public class SolicitacaoController implements Serializable {
 		}
 
 	}
+	
+	public areaEstado[] getestadoSolicitacoes(){
+		areaEstado[] estadosRetorno = new areaEstado[3];
+		estadosRetorno[0] = areaEstado.ESTOQUE;
+		estadosRetorno[1] = areaEstado.APROVADO;
+		estadosRetorno[2] = areaEstado.CANCELADO;
+		return estadosRetorno;
+	}
 
 	public void listar() {
 		try {
@@ -122,6 +130,17 @@ public class SolicitacaoController implements Serializable {
 		}
 
 	}
+	
+	public String gettotalAprovadas(){
+		try {
+			return this.solicitacaoService.totalAprovadas();
+		}catch (Exception e) {
+			return String.valueOf(0);
+		}
+		
+	}
+		
+	
 
 	public void processFileUpload(FileUploadEvent uploadEvent) {
 		try {

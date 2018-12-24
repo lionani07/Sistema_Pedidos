@@ -56,4 +56,8 @@ public class SolicitacaoService {
 		return false;
 	}
 
+	public String totalAprovadas() {
+		return this.repository.totalAprovadas()+"";
+	}
+
 }
