@@ -1,11 +1,10 @@
 package com.br.stefanini.pedidos.model.enums;
 
-public enum areaEstado {
-	ESTOQUE("Estoque", 0),
-	COMERCIAL("Comercial", 1),
-	GERENTE("Gerente", 2),
-	APROVADO("Aprovado", 3),
-	CANCELADO("Cancelado", 4);
+public enum areaEstado {	
+	COMERCIAL("Comercial", 0),
+	GERENTE("Gerente", 1),
+	APROVADO("Aprovado", 2),
+	CANCELADO("Cancelado", 3);
 	
 	private String descricao;
 	private int valor;

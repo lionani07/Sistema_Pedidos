@@ -8,15 +8,14 @@ xmlns:p="http://primefaces.org/ui">
 
 <ui:define name="corpo">
 
-<h:form>  
-<!--  
-    <h:panelGrid style="width:100%" responsive="true">
-    <p:chart type="line" model="#{lineCharTarefasCreadasFechadas.lineModel2}" style="height:300px;"/>
-    </h:panelGrid> 
-    
--->   
+<h:form> 
+<p:fieldset legend="Solicitaçoes: #{chartBean.sumaTotal}">
 
-SISTEMA PEDIDOS STEFANINI
+
+<h:panelGrid columns="2" cellpadding="10">
+<p:chart type="pie" model="#{chartBean.pieModel}" style="width:60%;height:300px" />
+</h:panelGrid>
+</p:fieldset>
      
 </h:form>
 

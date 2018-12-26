@@ -44,6 +44,13 @@ selection="#{usuarioController.usuarioSelect}" selectionMode="single" rows="15" 
 </p:column>
 
 <p:column style="width:30px">
+ <p:commandButton  icon="ui-icon-key" title="Troca Senha" oncomplete="PF('dlgPassUser').show();" update=":frm_updatePass"  >
+	<f:setPropertyActionListener value="#{usuario}" target="#{usuarioController.usuarioSelect}" />
+	<p:resetInput target=":frm_updatePass" />
+</p:commandButton>	
+</p:column>
+
+<p:column style="width:30px">
 <p:button title="Editar" icon="ui-icon-pencil" outcome="/usuarios/novo">
 <f:param name="id" value="#{usuario.id}" />
 </p:button>
@@ -63,11 +70,36 @@ selection="#{usuarioController.usuarioSelect}" selectionMode="single" rows="15" 
 
 </p:dataTable>
 
-
 </p:fieldset>
 
-
 </h:form>
+
+<h:form id="frm_updatePass">
+<p:dialog widgetVar="dlgPassUser" header="Trocando senha: #{usuarioController.usuarioSelect.nome}" resizable="false" modal="true" id="iddlgPassUser" showEffect="side" hideEffect="explode">
+<p:panelGrid columns="2" rendered="#{not empty usuarioController.usuarioSelect}">
+<p:outputLabel value="senha" for="senha1" />
+<h:inputSecret id="senha1" value="#{usuarioController.senhanova1}" />
+<p:outputLabel value="senha" for="senha2" />
+<h:inputSecret id="senha2" value="#{usuarioController.senhanova2}" />
+<f:facet name="footer">
+<p:commandButton icon="ui-icon-circle-check" title="Trocar" actionListener="#{usuarioController.trocarSenha}" oncomplete="senhaTrocada(xhr, status, args)"/>
+ <p:commandButton title="Cancel" icon="ui-icon-circle-close" onclick="PF('dlgPassUser').hide();" process="@this" />
+</f:facet>
+</p:panelGrid>
+<p:ajax event="close" update=":frm_usuarios" />
+</p:dialog>
+</h:form>
+
+<script type="text/javascript">
+    function senhaTrocada(xhr, status, args) {
+        if(args.validationFailed || !args.senhaTrocada) {
+            PF('dlgPassUser').jq.effect("shake", {times:5}, 100);
+        }
+        else {
+            PF('dlgPassUser').hide();           
+        }
+    }
+</script>
 
 </ui:define>
 

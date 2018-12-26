@@ -116,7 +116,7 @@ public class SolicitacaoController implements Serializable {
 	
 	public areaEstado[] getestadoSolicitacoes(){
 		areaEstado[] estadosRetorno = new areaEstado[3];
-		estadosRetorno[0] = areaEstado.ESTOQUE;
+		estadosRetorno[0] = areaEstado.COMERCIAL;
 		estadosRetorno[1] = areaEstado.APROVADO;
 		estadosRetorno[2] = areaEstado.CANCELADO;
 		return estadosRetorno;
@@ -136,9 +136,26 @@ public class SolicitacaoController implements Serializable {
 			return this.solicitacaoService.totalAprovadas();
 		}catch (Exception e) {
 			return String.valueOf(0);
-		}
-		
+		}		
 	}
+	
+	public String gettotalAreaComercial(){
+		try {
+			return this.solicitacaoService.totalAreaComercial();
+		}catch (Exception e) {
+			return String.valueOf(0);
+		}		
+	}
+	
+	public String gettotalAreaGerente(){
+		try {
+			return this.solicitacaoService.totalAreaGerente();
+		}catch (Exception e) {
+			return String.valueOf(0);
+		}		
+	}
+	
+	
 		
 	
 

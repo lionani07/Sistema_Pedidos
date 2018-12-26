@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.br.stefanini.pedidos.model.Usuario;
 import com.br.stefanini.pedidos.repository.UsuarioRepository;
+import com.br.stefanini.pedidos.utils.Utils;
 
 public class UsuarioService {
 
@@ -69,6 +70,19 @@ public class UsuarioService {
 			throw new RuntimeException(e.getMessage());
 		}
 		
+	}
+	
+	public void trocarSenha(Usuario u, String senha) {
+		try {
+			Usuario usuarioDB = this.repository.findById(u.getId());
+			if (usuarioDB != null) {
+				usuarioDB.setSenha(Utils.encriptar(senha));
+				this.repository.adiciona(usuarioDB);
+			}
+		} catch (Exception e) {
+
+		}
+
 	}
 
 }

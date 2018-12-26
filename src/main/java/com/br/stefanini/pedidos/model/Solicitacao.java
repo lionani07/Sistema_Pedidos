@@ -48,7 +48,7 @@ public class Solicitacao implements Serializable {
 	List<EstadoSolicitacao> estados = new ArrayList<EstadoSolicitacao>();
 	
 	public Solicitacao() {
-		this.estadoActual = areaEstado.ESTOQUE;
+		this.estadoActual = areaEstado.COMERCIAL;
 		this.dataCreacao = new Date();
 	}
 		

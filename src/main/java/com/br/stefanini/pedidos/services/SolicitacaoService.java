@@ -48,7 +48,7 @@ public class SolicitacaoService {
 	private boolean aprovarSolicitacao(Solicitacao solicitacao, EstadoSolicitacao estadoSolicitacao){
 		int areaSolicitacao = solicitacao.getEstadoActual().getValor();
 		areaEstado estadoActual = solicitacao.getEstadoActual();
-		if(estadoActual.equals(areaEstado.ESTOQUE) || estadoActual.equals(areaEstado.COMERCIAL) || estadoActual.equals(areaEstado.GERENTE)){
+		if(estadoActual.equals(areaEstado.COMERCIAL) || estadoActual.equals(areaEstado.GERENTE)){
 			estadoSolicitacao.setArea(areaEstado.values()[areaSolicitacao+1]);
 			estadoSolicitacao.setData(new Date());
 			return true;
@@ -58,6 +58,18 @@ public class SolicitacaoService {
 
 	public String totalAprovadas() {
 		return this.repository.totalAprovadas()+"";
+	}
+	
+	public String totalAreaComercial() {
+		return this.repository.totalAreaComercial()+"";
+	}
+	
+	public String totalAreaGerente() {
+		return this.repository.totalAreaGerente()+"";
+	}
+	
+	public String totalCanceladas() {
+		return this.repository.totalCanceladas()+"";
 	}
 
 }

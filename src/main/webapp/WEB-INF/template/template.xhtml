@@ -31,8 +31,8 @@ xmlns:p="http://primefaces.org/ui">
 </div>
 <div style="float: right; margin-right: 70px; margin-top: 4px">
 <h:form id="template">
-<p:button styleClass="bt_header" value="En Area Comercial" id="comercial"    />
-<p:button styleClass="bt_header" value="En Area Gerente"  id="gerente"  />
+<p:button styleClass="bt_header" icon="ui-icon-clock" value="#{solicitacaoController.totalAreaComercial}" id="comercial"    />
+<p:button styleClass="bt_header" icon="ui-icon-play" value="#{solicitacaoController.totalAreaGerente}"  id="gerente"  />
 <p:button styleClass="bt_header" icon="ui-icon-circle-check" value="#{solicitacaoController.totalAprovadas}" id="aprovadas"  />
 </h:form>
 </div>
@@ -55,12 +55,12 @@ xmlns:p="http://primefaces.org/ui">
 </p:submenu>
 
 
-<p:menuitem icon="ui-icon-play" value="Minhas Solicitaçoes" action="/solicitacao/listar?faces-redirect=true" />
-<p:menuitem icon="ui-icon-play" value="Solicitaçoes Aprovadas"  />
+<p:menuitem icon="ui-icon-transferthick-e-w" value="Solicitaçoes" action="/solicitacao/listar?faces-redirect=true" />
+
 
 
 <f:facet name="options"> 
-   <p:commandButton ajax="false" value="Sair" icon="ui-icon-power" action="#{loginBean.logout}" />
+   <p:commandButton ajax="false" value="Sair" icon="ui-icon-power" action="#{loginBean.logout}" />  
 </f:facet>
 </p:menubar>
 

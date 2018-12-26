@@ -20,13 +20,14 @@ xmlns:p="http://primefaces.org/ui">
 
 <p:graphicImage value="/temp/#{solicitacaoController.solicitacaoSelect.id}.jpg" width="774" height="400" />  
 
-<p:commandButton icon="ui-icon-circle-check"  title="Aprovar" oncomplete="PF('dlgAprobar').show();" process="@this" >
+<p:commandButton rendered="#{loginBean.userLogado.rol eq 'GERENTE' or loginBean.userLogado.rol eq 'COMERCIAL'}" icon="ui-icon-circle-check"  title="Aprovar" oncomplete="PF('dlgAprobar').show();" process="@this" >
 <p:resetInput target="frm_aprobar"></p:resetInput>
 </p:commandButton>
 
-<p:commandButton icon="ui-icon-circle-close"  title="Cancelar" oncomplete="PF('dlgCancelar').show();" process="@this" >
+<p:commandButton rendered="#{loginBean.userLogado.rol eq 'GERENTE' or loginBean.userLogado.rol eq 'COMERCIAL'}" icon="ui-icon-circle-close"  title="Cancelar" oncomplete="PF('dlgCancelar').show();" process="@this" >
 <p:resetInput target="frm_cancelar"></p:resetInput>
 </p:commandButton>
+<p:button icon="ui-icon-arrow-1-w" outcome="/solicitacao/listar" />
 </p:fieldset>
 </div>
 </h:form>
@@ -40,6 +41,7 @@ xmlns:p="http://primefaces.org/ui">
     
     <f:facet name="footer">
     	<p:commandButton icon="ui-icon-circle-check"  title="Aprovar" action="#{solicitacaoController.aprovarSolicitacao}" />
+    	<p:commandButton icon="ui-icon-arrow-1-w" oncomplete="PF('dlgAprobar').hide();" />
     </f:facet>
 </p:dialog>
 </h:form>
@@ -51,7 +53,8 @@ xmlns:p="http://primefaces.org/ui">
     <p:inputTextarea cols="50" rows="5" id="descricao" value="#{solicitacaoController.estadoSolicitacao.descricao}"/>
     
     <f:facet name="footer">
-    	<p:commandButton icon="ui-icon-circle-close" title="Cancelar" action="#{solicitacaoController.cancelarSolicitacao}" />
+    	<p:commandButton  icon="ui-icon-circle-close" title="Cancelar" action="#{solicitacaoController.cancelarSolicitacao}" />
+    	<p:commandButton icon="ui-icon-arrow-1-w" oncomplete="PF('dlgCancelar').hide();" />
     </f:facet>
 </p:dialog>
 </h:form>
