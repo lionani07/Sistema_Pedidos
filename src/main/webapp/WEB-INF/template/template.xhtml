@@ -55,7 +55,7 @@ xmlns:p="http://primefaces.org/ui">
 </p:submenu>
 
 
-<p:menuitem icon="ui-icon-transferthick-e-w" value="Solicitaçoes" action="/solicitacao/listar?faces-redirect=true" />
+<p:menuitem icon="ui-icon-transferthick-e-w" value="Solicitaçoes" action="/solicitacao/listar?faces-redirect=true" rendered="#{loginBean.userLogado.rol != 'ADMIN'}" />
 
 
 

@@ -1,10 +1,9 @@
 //package com.br.stefanini.pedidos.autorizador;
-/*
-package com.br.aernnova.filter;
+
+package com.br.stefanini.pedidos.autorizador;
 
 import java.io.IOException;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,9 +14,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.br.aernnova.controller.LoginBean;
-import com.br.aernnova.model.Pessoa;
-import com.br.aernnova.model.enums.Rol;
+import com.br.stefanini.pedidos.model.enums.Rol;
+
 
 @WebFilter("*.xhtml")
 public class AutorizacaoFilter implements Filter {
@@ -35,44 +33,13 @@ public class AutorizacaoFilter implements Filter {
 				&& !request.getRequestURI().endsWith("/Login.xhtml")
 				&& !request.getRequestURI().contains("/javax.faces.resource/")) {	
 			request.getSession().invalidate();
-			response.sendRedirect(request.getContextPath() + "/Login.xhtml?faces-redirect=true");	
-			//response.sendRedirect(request.getContextPath() + "/Login.xhtml");
+			//response.sendRedirect(request.getContextPath() + "/Login.xhtml?faces-redirect=true");	
+			response.sendRedirect(request.getContextPath() + "/Login.xhtml");
 		}
-		else if(request.getRequestURI().endsWith("/pessoas.xhtml")){
+		else if(request.getRequestURI().contains("usuarios")){
 			if(this.rol.equals(Rol.ADMIN)){				
 				chain.doFilter(req, res);
 			}
-			else{
-				response.sendRedirect(request.getContextPath() + "/index.xhtml");
-			}
-			
-		}
-		else if(request.getRequestURI().contains("relatorios")){
-			if(this.rol.equals(Rol.RESPONSAVEL)){				
-				chain.doFilter(req, res);
-			}
-			else{
-				response.sendRedirect(request.getContextPath() + "/index.xhtml");
-			}
-			
-		}
-		else if(request.getRequestURI().contains("gestion")){
-			if(this.rol.equals(Rol.ADMIN)){				
-				chain.doFilter(req, res);
-			}
-			else{
-				response.sendRedirect(request.getContextPath() + "/index.xhtml");
-			}
-			
-		}		
-		else if(request.getRequestURI().contains("minhasTarefas")){
-			if(this.rol.equals(Rol.RESPONSAVEL) || this.rol.equals(Rol.EJECUTOR)){				
-				chain.doFilter(req, res);
-			}
-			else if(this.rol.equals(Rol.CREADOR) &&  request.getRequestURI().contains("minhastCreadas")){
-				chain.doFilter(req, res);
-				}			
-			
 			else{
 				response.sendRedirect(request.getContextPath() + "/index.xhtml");
 			}
@@ -96,4 +63,4 @@ public class AutorizacaoFilter implements Filter {
 	}
 
 }
-*/
+
