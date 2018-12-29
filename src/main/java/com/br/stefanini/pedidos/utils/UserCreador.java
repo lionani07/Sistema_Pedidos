@@ -10,9 +10,10 @@ public class UserCreador {
 		UsuarioService service = new UsuarioService();
 		Usuario usuario = new Usuario();
 		usuario.setPeople("000000");
-		usuario.setNome("Lio");
+		usuario.setNome("Admin");
+		usuario.setSenha(Utils.encriptar(usuario.getPeople()));
 		usuario.setRol(Rol.ADMIN);
-		usuario.setEmail("douglas@aernnova.com");
+		usuario.setEmail("admin@admin.com");
 		service.adiciona(usuario);
 	}
 
