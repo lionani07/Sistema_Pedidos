@@ -32,6 +32,7 @@ public class SolicitacaoController implements Serializable {
 	private Solicitacao solicitacaoSelect;
 	private List<Solicitacao> listaSolicitacao = new ArrayList<Solicitacao>();
 	private EstadoSolicitacao estadoSolicitacao;
+	private List<EstadoSolicitacao> estadosSolicitacaoSelect = new ArrayList<EstadoSolicitacao>();
 
 	/* Dados fotos */
 	private String fotoActual;
@@ -129,9 +130,16 @@ public class SolicitacaoController implements Serializable {
 			mostrarMessageError(e.getMessage());
 		}
 
+	}	
+	
+	public void estadosSolicitacaoSelect() {
+		this.estadosSolicitacaoSelect = this.solicitacaoService.getEstadosBySolicitacao(this.solicitacaoSelect);
 	}
 	
-	/* Revisar esta parte*/
+	public List<EstadoSolicitacao> getEstadosSolicitacaoSelect() {
+		return estadosSolicitacaoSelect;
+	}
+
 	
 	public String gettotalAprovadas(){
 		try {
@@ -141,7 +149,7 @@ public class SolicitacaoController implements Serializable {
 		}		
 	}
 	
-	public String gettotalAreaComercial(){
+	public String gettotalEmAndamento(){
 		try {
 			return this.solicitacaoService.totalEmAndamento();
 		}catch (Exception e) {
@@ -149,7 +157,7 @@ public class SolicitacaoController implements Serializable {
 		}		
 	}
 	
-	public String gettotalAreaGerente(){
+	public String gettotalCanceladas(){
 		try {
 			return this.solicitacaoService.totalCanceladas();
 		}catch (Exception e) {

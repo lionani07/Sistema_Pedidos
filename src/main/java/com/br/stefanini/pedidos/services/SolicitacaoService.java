@@ -72,4 +72,9 @@ public class SolicitacaoService {
 		return this.repository.totalCanceladas()+"";
 	}
 
+	public List<EstadoSolicitacao> getEstadosBySolicitacao(Solicitacao solicitacaoSelect) {
+		return this.repository.getEstadosBySolicitacao(solicitacaoSelect);
+		
+	}
+
 }

@@ -119,6 +119,42 @@ public class Solicitacao implements Serializable {
 		this.estados = estados;
 	}
 	
+	public int DiasFinalizar(){		
+		Date hoje = new Date();
+	    int dias=(int) ((getDateEstadoActual().getTime()-hoje.getTime())/86400000);	
+	    if(hoje.before(getDateEstadoActual())){
+	    	dias +=1;
+	    }
+		return dias;
+	}
+	
+	public String DiasFinalizarToString(){		
+		Date hoje = new Date();
+	    int dias=(int) ((getDateEstadoActual().getTime()-hoje.getTime())/86400000);	
+	    if(dias<0){
+	    	dias = dias*-1;
+	    }
+	    if(hoje.before(getDateEstadoActual())){
+	    	dias +=1;
+	    }
+		return String.valueOf(dias);
+	}
+	
+	public String estadoSolicitacaoString(){
+		int dias = this.DiasFinalizar();
+		String estado ="";
+		if(dias<0){
+			estado = "negativo";
+		}
+		else if(dias==0){
+			estado = "hoy";
+		}
+		else{
+			estado = "positivo";
+		}		
+		return estado;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

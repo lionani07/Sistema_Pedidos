@@ -41,7 +41,7 @@ xmlns:p="http://primefaces.org/ui">
     
     <f:facet name="footer">
     	<p:commandButton icon="ui-icon-circle-check"  title="Aprovar" action="#{solicitacaoController.aprovarSolicitacao}" />
-    	<p:commandButton icon="ui-icon-arrow-1-w" oncomplete="PF('dlgAprobar').hide();" />
+    	<p:commandButton icon="ui-icon-arrow-1-w" oncomplete="PF('dlgAprobar').hide();" process="@this" />
     </f:facet>
 </p:dialog>
 </h:form>
@@ -54,7 +54,7 @@ xmlns:p="http://primefaces.org/ui">
     
     <f:facet name="footer">
     	<p:commandButton  icon="ui-icon-circle-close" title="Cancelar" action="#{solicitacaoController.cancelarSolicitacao}" />
-    	<p:commandButton icon="ui-icon-arrow-1-w" oncomplete="PF('dlgCancelar').hide();" />
+    	<p:commandButton icon="ui-icon-arrow-1-w" oncomplete="PF('dlgCancelar').hide();" process="@this" />
     </f:facet>
 </p:dialog>
 </h:form>

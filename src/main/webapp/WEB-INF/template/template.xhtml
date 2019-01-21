@@ -27,13 +27,14 @@ xmlns:p="http://primefaces.org/ui">
 <header>
 <h:graphicImage library="pedido" name="logo.png" />
 <div  style="float: right; margin-right: 20px; margin-top: 8px" >
-<p:outputLabel value="Olá #{loginBean.userLogado.nome}/#{loginBean.userLogado.rol} " rendered="#{not empty loginBean.userLogado}" />
+<p:outputLabel value="Olá #{loginBean.userLogado.nome}/#{loginBean.userLogado.rol.descricao} " rendered="#{loginBean.userLogado !=null}" />
 </div>
 <div style="float: right; margin-right: 70px; margin-top: 4px">
 <h:form id="template">
-<p:button styleClass="bt_header" icon="ui-icon-clock" value="#{solicitacaoController.totalAreaComercial}" id="comercial"    />
-<p:button styleClass="bt_header" icon="ui-icon-play" value="#{solicitacaoController.totalAreaGerente}"  id="gerente"  />
 <p:button styleClass="bt_header" icon="ui-icon-circle-check" value="#{solicitacaoController.totalAprovadas}" id="aprovadas"  />
+<p:button styleClass="bt_header" icon="ui-icon-play" value="#{solicitacaoController.totalEmAndamento}" id="andamentos"    />
+<p:button styleClass="bt_header" icon="ui-icon-circle-close" value="#{solicitacaoController.totalCanceladas}"  id="canceladas"  />
+
 </h:form>
 </div>
 </header>

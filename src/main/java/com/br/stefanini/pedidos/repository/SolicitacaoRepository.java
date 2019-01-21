@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
+import com.br.stefanini.pedidos.model.EstadoSolicitacao;
 import com.br.stefanini.pedidos.model.Solicitacao;
 import com.br.stefanini.pedidos.model.Usuario;
 import com.br.stefanini.pedidos.model.enums.Rol;
@@ -115,10 +116,11 @@ public class SolicitacaoRepository {
 	public Integer totalEmAndamento() {
 		TypedQuery<Long> query = this.manager
 				.createQuery(
-						"SELECT COUNT(s) FROM Solicitacao s where s.estadoActual.valor>=:estadoMinimo and s.estadoActual.valor<=:estadoMaximo ",
+						"SELECT COUNT(s) FROM Solicitacao s where s.estadoActual=:tecnico or s.estadoActual=:operaciones or s.estadoActual=:produtos",
 						Long.class);
-		query.setParameter("estadoMinimo", 1);
-		query.setParameter("estadoMaximo", 3);
+		query.setParameter("tecnico", areaEstado.TECNICO);
+		query.setParameter("operaciones", areaEstado.OPERACIONES);
+		query.setParameter("produtos", areaEstado.PRODUTOS);
 		Long total = query.getSingleResult();
 		return Integer.parseInt(total.toString());
 	}
@@ -131,6 +133,12 @@ public class SolicitacaoRepository {
 		query.setParameter("cancelada", areaEstado.CANCELADO);
 		Long total = query.getSingleResult();
 		return Integer.parseInt(total.toString());
+	}
+
+	public List<EstadoSolicitacao> getEstadosBySolicitacao(Solicitacao solicitacaoSelect) {
+		TypedQuery<EstadoSolicitacao> query = this.manager.createQuery("from EstadoSolicitacao es where es.solicitacao=:solicitacaoSelect", EstadoSolicitacao.class);
+		query.setParameter("solicitacaoSelect", solicitacaoSelect);
+		return query.getResultList();
 	}
 	
 	

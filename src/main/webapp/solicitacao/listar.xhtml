@@ -8,6 +8,7 @@ xmlns:p="http://primefaces.org/ui">
 
 <f:metadata>
 <f:viewAction action="#{solicitacaoController.listar}" />
+<f:viewAction action="#{solicitacaoController.estadosSolicitacaoSelect}" />
 </f:metadata>
 
 <ui:define name="corpo">
@@ -19,9 +20,12 @@ xmlns:p="http://primefaces.org/ui">
 <p:dataTable widgetVar="tableSolicitacoes" style="text-align:center" id="datable_solicitacoes" var="solicitacao" value="#{solicitacaoController.listaSolicitacao}" paginator="true"
 rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicitacaoController.solicitacaoSelect}" paginatorPosition="bottom" >
 
+<p:ajax event="rowSelect" listener="#{solicitacaoController.estadosSolicitacaoSelect}" update=":frm_solicitacao:listEstados" />
+ 
+
 <f:facet name="header">
 <div align="left">
-<p:commandButton icon="ui-icon-circle-plus" value="Criar" action="/solicitacao/novo?faces-redirect=true"  />
+<p:commandButton rendered="#{loginBean.userLogado.rol eq 'ANALISTA_COMPRAS'}" icon="ui-icon-circle-plus" value="Criar" action="/solicitacao/novo?faces-redirect=true"  />
 </div>
 </f:facet>
 
@@ -55,6 +59,12 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 	</h:outputText>
 </p:column>
 
+<p:column headerText="Dias" style="width:35px" sortBy="#{solicitacao.DiasFinalizar()}">
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FF0000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'negativo'}"/>
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FFFF00; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'hoy'}"/>
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#008000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'positivo'}"/>
+</p:column>
+
 <p:column style="width: 30px">
 <p:button  outcome="/galeria" icon="ui-icon-image" title="Arquivo" >
 <f:param name="id" value="#{solicitacao.id}" />
@@ -81,6 +91,33 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </p:column>
 
 </p:dataTable>
+
+<div>
+	<p></p>
+</div>
+
+<p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal">
+     <p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados">
+	<p:column headerText="Id">
+		<h:outputText value="#{estado.id}" />
+	</p:column>
+	
+	<p:column headerText="Data">
+		<h:outputText value="#{estado.data}">
+			<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+		</h:outputText>
+	</p:column>
+	
+	<p:column headerText="Estado">
+		<h:outputText value="#{estado.area.descricao}" />
+	</p:column>
+	
+	<p:column headerText="Descricao">
+		<h:outputText value="#{estado.descricao}" />
+	</p:column>
+	
+</p:dataTable>
+ </p:panel>
 
 </p:fieldset>
 
