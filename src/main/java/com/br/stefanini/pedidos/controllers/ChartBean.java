@@ -15,8 +15,8 @@ public class ChartBean implements Serializable {
 	private static final long serialVersionUID = 1L;	
 	
 	
-	private int totalAreaComercial;
-	private int totalAreaGerente;
+	private int totalSinIniciar;
+	private int totalEmAndamento;
 	private int totalAprovadas;
 	private int totalCanceladas;
 	private int sumaTotal;
@@ -53,17 +53,17 @@ public class ChartBean implements Serializable {
 	private void createPieModel() {
 		try {
 			
-			this.totalAreaComercial = Integer.parseInt(this.solicitacaoService.totalAreaComercial());
-			this.totalAreaGerente = Integer.parseInt(this.solicitacaoService.totalAreaGerente());
+			this.totalSinIniciar = Integer.parseInt(this.solicitacaoService.totalSinIniciar());
+			this.totalEmAndamento = Integer.parseInt(this.solicitacaoService.totalEmAndamento());
 			this.totalAprovadas = Integer.parseInt(this.solicitacaoService.totalAprovadas());
 			this.totalCanceladas = Integer.parseInt(this.solicitacaoService.totalCanceladas());
 			
-			this.sumaTotal = totalAreaComercial + totalAreaGerente + totalAprovadas + totalCanceladas;
+			this.sumaTotal = totalSinIniciar + totalEmAndamento + totalAprovadas + totalCanceladas;
 
 			pieModel = new PieChartModel();
 			
-			pieModel.set("Creadas", this.totalAreaComercial);
-			pieModel.set("Em andamento", this.totalAreaGerente);
+			pieModel.set("Sem Iniciar", this.totalSinIniciar);
+			pieModel.set("Em andamento", this.totalEmAndamento);
 			pieModel.set("Aprovadas", this.totalAprovadas);
 			pieModel.set("Canceladas", this.totalCanceladas);
 

@@ -44,18 +44,23 @@ public class Solicitacao implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private areaEstado estadoActual;
 	
+	@Temporal(TemporalType.DATE)
+	private Date dateEstadoActual;
+	
 	@OneToMany(mappedBy="solicitacao", cascade = CascadeType.ALL, orphanRemoval = true)
 	List<EstadoSolicitacao> estados = new ArrayList<EstadoSolicitacao>();
 	
 	public Solicitacao() {
-		this.estadoActual = areaEstado.COMERCIAL;
+		this.estadoActual = areaEstado.COMPRAS;
 		this.dataCreacao = new Date();
+		this.dateEstadoActual = new Date();
 	}
 		
 	public void addEstado(EstadoSolicitacao estadoSolicitacao){
 		estados.add(estadoSolicitacao);
 		estadoSolicitacao.setSolicitacao(this);
-		this.setEstadoActual(estadoSolicitacao.getArea());		
+		this.setEstadoActual(estadoSolicitacao.getArea());	
+		this.setDateEstadoActual(new Date());		
 	}
 	
 	public void removeEstado(EstadoSolicitacao estadoSolicitacao){
@@ -99,6 +104,14 @@ public class Solicitacao implements Serializable {
 		this.estadoActual = estadoActual;
 	}
 	
+	public Date getDateEstadoActual() {
+		return dateEstadoActual;
+	}
+	
+	public void setDateEstadoActual(Date dateEstadoActual) {
+		this.dateEstadoActual = dateEstadoActual;
+	}
+	
 	public List<EstadoSolicitacao> getEstados() {
 		return estados;
 	}	
@@ -129,10 +142,6 @@ public class Solicitacao implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
 	
 	
 		

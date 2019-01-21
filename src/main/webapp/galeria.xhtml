@@ -16,15 +16,15 @@ xmlns:p="http://primefaces.org/ui">
 <h:form id="frm_galeria">
 <p:growl id="growltap"  showDetail="false" showSummary="true" autoUpdate="true" />
 <div align="center">
-<p:fieldset legend="Solicitaçao #{solicitacaoController.solicitacaoSelect.id}" style="width:780px" >
+<p:fieldset legend="Solicitaçao #{solicitacaoController.solicitacaoSelect.id}" style="width:700px; height:800" >
 
-<p:graphicImage value="/temp/#{solicitacaoController.solicitacaoSelect.id}.jpg" width="774" height="400" />  
+<p:graphicImage value="/temp/#{solicitacaoController.solicitacaoSelect.id}.jpg" width="700" height="800" />  
 
-<p:commandButton rendered="#{loginBean.userLogado.rol eq 'GERENTE' or loginBean.userLogado.rol eq 'COMERCIAL'}" icon="ui-icon-circle-check"  title="Aprovar" oncomplete="PF('dlgAprobar').show();" process="@this" >
+<p:commandButton rendered="#{loginBean.userLogado.rol != 'ANALISTA_COMPRAS' and loginBean.userLogado.rol != 'ADMIN'}" icon="ui-icon-circle-check"  title="Aprovar" oncomplete="PF('dlgAprobar').show();" process="@this" >
 <p:resetInput target="frm_aprobar"></p:resetInput>
 </p:commandButton>
 
-<p:commandButton rendered="#{loginBean.userLogado.rol eq 'GERENTE' or loginBean.userLogado.rol eq 'COMERCIAL'}" icon="ui-icon-circle-close"  title="Cancelar" oncomplete="PF('dlgCancelar').show();" process="@this" >
+<p:commandButton rendered="#{loginBean.userLogado.rol != 'ANALISTA_COMPRAS' and loginBean.userLogado.rol != 'ADMIN'}" icon="ui-icon-circle-close"  title="Cancelar" oncomplete="PF('dlgCancelar').show();" process="@this" >
 <p:resetInput target="frm_cancelar"></p:resetInput>
 </p:commandButton>
 <p:button icon="ui-icon-arrow-1-w" outcome="/solicitacao/listar" />

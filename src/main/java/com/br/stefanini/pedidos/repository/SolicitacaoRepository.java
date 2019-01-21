@@ -39,26 +39,38 @@ public class SolicitacaoRepository {
 	public List<Solicitacao> listar(Usuario usuario) {
 		TypedQuery<Solicitacao> query = this.manager.createQuery(
 				"from Solicitacao", Solicitacao.class);
-		if (usuario.getRol().equals(Rol.ESTOQUE)) {
+		if (usuario.getRol().equals(Rol.ANALISTA_COMPRAS)) {
 			query = this.manager
 					.createQuery(
 							"from Solicitacao s where s.estadoActual=:comercial or s.estadoActual=:aprovado or s.estadoActual=:cancelado",
 							Solicitacao.class);
-			query.setParameter("comercial", areaEstado.COMERCIAL);
+			query.setParameter("comercial", areaEstado.COMPRAS);
 			query.setParameter("aprovado", areaEstado.APROVADO);
 			query.setParameter("cancelado", areaEstado.CANCELADO);
 		}
-		if (usuario.getRol().equals(Rol.COMERCIAL)) {
+		if (usuario.getRol().equals(Rol.ANALISTA_TECNICO)) {
 			query = this.manager.createQuery(
 					"from Solicitacao s where s.estadoActual=:comercial",
 					Solicitacao.class);
-			query.setParameter("comercial", areaEstado.COMERCIAL);
+			query.setParameter("comercial", areaEstado.COMPRAS);
 		}
-		if (usuario.getRol().equals(Rol.GERENTE)) {
+		if (usuario.getRol().equals(Rol.GERENTE_OPERACIONAL)) {
 			query = this.manager.createQuery(
 					"from Solicitacao s where s.estadoActual=:gerente",
 					Solicitacao.class);
-			query.setParameter("gerente", areaEstado.GERENTE);
+			query.setParameter("gerente", areaEstado.TECNICO);
+		}
+		if (usuario.getRol().equals(Rol.GERENTE_PRODUTOS)) {
+			query = this.manager.createQuery(
+					"from Solicitacao s where s.estadoActual=:gerente",
+					Solicitacao.class);
+			query.setParameter("gerente", areaEstado.OPERACIONES);
+		}
+		if (usuario.getRol().equals(Rol.GERENTE_COMERCIAL)) {
+			query = this.manager.createQuery(
+					"from Solicitacao s where s.estadoActual=:gerente",
+					Solicitacao.class);
+			query.setParameter("gerente", areaEstado.PRODUTOS);
 		}
 		return query.getResultList();
 	}
@@ -90,22 +102,23 @@ public class SolicitacaoRepository {
 		return Integer.parseInt(total.toString());
 	}
 
-	public Integer totalAreaComercial() {
+	public Integer totalSinIniciar() {
 		TypedQuery<Long> query = this.manager
 				.createQuery(
-						"SELECT COUNT(s) FROM Solicitacao s where s.estadoActual=:comercial",
+						"SELECT COUNT(s) FROM Solicitacao s where s.estadoActual=:compras",
 						Long.class);
-		query.setParameter("comercial", areaEstado.COMERCIAL);
+		query.setParameter("compras", areaEstado.COMPRAS);
 		Long total = query.getSingleResult();
 		return Integer.parseInt(total.toString());
 	}
 	
-	public Integer totalAreaGerente() {
+	public Integer totalEmAndamento() {
 		TypedQuery<Long> query = this.manager
 				.createQuery(
-						"SELECT COUNT(s) FROM Solicitacao s where s.estadoActual=:gerente",
+						"SELECT COUNT(s) FROM Solicitacao s where s.estadoActual.valor>=:estadoMinimo and s.estadoActual.valor<=:estadoMaximo ",
 						Long.class);
-		query.setParameter("gerente", areaEstado.GERENTE);
+		query.setParameter("estadoMinimo", 1);
+		query.setParameter("estadoMaximo", 3);
 		Long total = query.getSingleResult();
 		return Integer.parseInt(total.toString());
 	}
@@ -119,5 +132,7 @@ public class SolicitacaoRepository {
 		Long total = query.getSingleResult();
 		return Integer.parseInt(total.toString());
 	}
+	
+	
 
 }

@@ -41,12 +41,18 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 
 <p:column headerText="Estado" sortBy="#{solicitacao.estadoActual}" filterBy="#{solicitacao.estadoActual}" filterMatchMode="exact">
    <f:facet name="filter">
-       <p:selectOneMenu onchange="PF('tableSolicitacoes').filter()" rendered="#{loginBean.userLogado.rol eq 'ESTOQUE'}" >
+       <p:selectOneMenu onchange="PF('tableSolicitacoes').filter()" rendered="#{loginBean.userLogado.rol eq 'ANALISTA_COMPRAS'}" >
            <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
            <f:selectItems value="#{solicitacaoController.estadoSolicitacoes}" />
       </p:selectOneMenu>
    </f:facet>
 <h:outputText value="#{solicitacao.estadoActual}" />
+</p:column>
+
+<p:column headerText="Data Ultimo estado">
+	<h:outputText value="#{solicitacao.dateEstadoActual}">
+		 <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+	</h:outputText>
 </p:column>
 
 <p:column style="width: 30px">
