@@ -26,7 +26,7 @@ public class SolicitacaoService {
 	}
 
 	public void adiciona(Solicitacao solicitacao) {	
-		if(!existeSolicitacaobyNumeroPedido(solicitacao.getNumeroPedido())){
+		if(!existeSolicitacaobyNumeroPedido(solicitacao)){
 			repository.adicionar(solicitacao);
 		}
 		else{
@@ -35,14 +35,16 @@ public class SolicitacaoService {
 		
 	}
 	
-	public void cancelarOuAprovar(Solicitacao solicitacao) {
-		repository.adicionar(solicitacao);
-	}
 	
-	private boolean existeSolicitacaobyNumeroPedido(String numeroPedido){
-		Solicitacao solicitacao = null;
-		solicitacao =  this.repository.existeSolicitacaobyNumeroPedido(numeroPedido);
-		return (solicitacao!=null)? true: false;
+	private boolean existeSolicitacaobyNumeroPedido(Solicitacao solicitacao){
+		Solicitacao solicitacaoBD = null;
+		solicitacaoBD =  this.repository.existeSolicitacaobyNumeroPedido(solicitacao.getNumeroPedido());
+		if(solicitacaoBD!=null){
+			if(!solicitacao.equals(solicitacaoBD)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<Solicitacao> listar() {
@@ -57,7 +59,7 @@ public class SolicitacaoService {
 	public void aprovar(Solicitacao solicitacao, EstadoSolicitacao estadoSolicitacao){
 		if(aprovarSolicitacao(solicitacao, estadoSolicitacao)){
 			solicitacao.addEstado(estadoSolicitacao);
-			cancelarOuAprovar(solicitacao);
+			adiciona(solicitacao);
 		}		
 	}
 	
@@ -91,6 +93,14 @@ public class SolicitacaoService {
 	public List<EstadoSolicitacao> getEstadosBySolicitacao(Solicitacao solicitacaoSelect) {
 		return this.repository.getEstadosBySolicitacao(solicitacaoSelect);
 		
+	}
+
+	public List<Solicitacao> listarFinalizadas() {
+		return repository.listarFinalizadas();
+	}
+
+	public List<Solicitacao> listarArquivadas() {
+		return repository.listarArquivadas();
 	}
 
 }

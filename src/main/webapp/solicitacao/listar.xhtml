@@ -35,13 +35,13 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 
 <p:column headerText="Valor da compra">
 <h:outputText value="#{solicitacao.valorCompra}" >
-<f:convertNumber pattern="R$ #,##0.00" />
+	<f:convertNumber currencySymbol="R$" maxFractionDigits="2"  type="currency" locale="pt_BR"/>
 </h:outputText>
 </p:column>
 
 <p:column headerText="TARGET">
 <h:outputText value="#{solicitacao.target}" >
-	<f:convertNumber pattern="R$ #,##0.00" />
+	<f:convertNumber currencySymbol="R$" maxFractionDigits="2"  type="currency" locale="pt_BR"/>
 </h:outputText>
 </p:column>
 
@@ -78,7 +78,7 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </p:column>
 
 <p:column style="width: 30px">
-<p:button  outcome="/galeria" icon="ui-icon-image" title="Arquivo" >
+<p:button  outcome="/galeria" icon="ui-icon-image" title="ver" >
 <f:param name="id" value="#{solicitacao.id}" />
 </p:button>
 </p:column>
@@ -87,10 +87,17 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 <p:button  rendered="#{solicitacao.estadoActual eq 'COMPRAS'}" icon="ui-icon-pencil" title="Editar" outcome="/solicitacao/novo">
 <f:param name="id" value="#{solicitacao.id}" />
 </p:button>
-<p:button rendered="#{solicitacao.estadoActual eq 'CANCELADO'}"  value="Reabrir">
+
+<p:button rendered="#{solicitacao.estadoActual eq 'CANCELADO'}" icon="ui-icon-unlocked"  title="Reabrir" outcome="/solicitacao/reabrir">
 	<f:param name="id" value="#{solicitacao.id}" />
 </p:button>
-<p:commandButton rendered="#{solicitacao.estadoActual eq 'APROVADO'}" value="Finalizar"></p:commandButton>  
+
+
+<p:commandButton rendered="#{solicitacao.estadoActual eq 'APROVADO'}" title="Finalizar" icon="ui-icon-locked" action="#{solicitacaoController.finalizar}" process="@this" >
+<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoController.solicitacaoSelect}" />
+<p:confirm header="Finalizar solicitaçao" message="Tem Certeza?" icon="ui-icon-alert" />
+</p:commandButton>  
+
 </p:column>
 
 <p:column style="width:30px" rendered="#{loginBean.userLogado.rol eq 'ANALISTA_COMPRAS'}" >
@@ -104,7 +111,10 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
   </p:confirmDialog>
   
-<p:commandButton rendered="#{solicitacao.estadoActual eq 'CANCELADO'}" value="Arquivar"></p:commandButton>  
+<p:commandButton rendered="#{solicitacao.estadoActual eq 'CANCELADO'}" title="Arquivar" icon="ui-icon-document" action="#{solicitacaoController.arquivar}" process="@this">
+	<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoController.solicitacaoSelect}" />	
+	<p:confirm header="Arquivar solicitaçao" message="Tem Certeza?" icon="ui-icon-alert" />
+</p:commandButton>  
 
 </p:column>
 

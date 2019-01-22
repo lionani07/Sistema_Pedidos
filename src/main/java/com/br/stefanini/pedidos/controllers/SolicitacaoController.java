@@ -31,6 +31,8 @@ public class SolicitacaoController implements Serializable {
 	private Solicitacao solicitacao;
 	private Solicitacao solicitacaoSelect;
 	private List<Solicitacao> listaSolicitacao = new ArrayList<Solicitacao>();
+	private List<Solicitacao> listaFinalizadas = new ArrayList<Solicitacao>();
+	private List<Solicitacao> listaArquivadas = new ArrayList<Solicitacao>();
 	private EstadoSolicitacao estadoSolicitacao;
 	private List<EstadoSolicitacao> estadosSolicitacaoSelect = new ArrayList<EstadoSolicitacao>();
 
@@ -63,9 +65,10 @@ public class SolicitacaoController implements Serializable {
 			if (this.solicitacao.getArquivo() == null) {
 				throw new RuntimeException("Arquivo de imagem é obrigatorio");
 			} else {
-				this.solicitacaoService.adiciona(this.solicitacao);
+				this.solicitacaoService.adiciona(this.solicitacao);				
+				String message = (this.solicitacao.getId()!=null)? "Solicitaçao actualizada": "Solicitaçao criada";
 				this.solicitacao = new Solicitacao();
-				mostrarMessage("Solicitaçao criada");
+				mostrarMessage(message);				
 				return "/solicitacao/listar?faces-redirect=true";
 			}
 		} catch (Exception e) {
@@ -77,10 +80,12 @@ public class SolicitacaoController implements Serializable {
 	
 	public String cancelarSolicitacao(){
 		try {
+			this.estadoSolicitacao = new EstadoSolicitacao();
 			this.estadoSolicitacao.setData(new Date());
 			this.estadoSolicitacao.setArea(areaEstado.CANCELADO);
+			this.estadoSolicitacao.setDescricao("***CANCELADO***");
 			this.solicitacaoSelect.addEstado(this.estadoSolicitacao);
-			this.solicitacaoService.cancelarOuAprovar(this.solicitacaoSelect);
+			this.solicitacaoService.adiciona(this.solicitacaoSelect);
 			mostrarMessage("Solicitaçao cancelada");
 			this.estadoSolicitacao  = new EstadoSolicitacao();
 			return "/solicitacao/listar?faces-redirect=true";
@@ -115,6 +120,63 @@ public class SolicitacaoController implements Serializable {
 
 	}
 	
+	
+	public String finalizar(){
+		try {
+			this.estadoSolicitacao = new EstadoSolicitacao();
+			this.estadoSolicitacao.setData(new Date());
+			this.estadoSolicitacao.setArea(areaEstado.FINALIZADO);
+			this.estadoSolicitacao.setDescricao("***FINALIZADO***");
+			this.solicitacaoSelect.addEstado(this.estadoSolicitacao);
+			this.solicitacaoService.adiciona(this.solicitacaoSelect);
+			mostrarMessage("Solicitaçao Finalizada");
+			this.estadoSolicitacao  = new EstadoSolicitacao();
+			return "/solicitacao/listar?faces-redirect=true";
+		} catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+			return null;
+		}		
+	}
+	
+	public String arquivar(){
+		try {
+			this.estadoSolicitacao = new EstadoSolicitacao();
+			this.estadoSolicitacao.setData(new Date());
+			this.estadoSolicitacao.setArea(areaEstado.ARQUIVADO);
+			this.estadoSolicitacao.setDescricao("***ARQUIVADO***");
+			this.solicitacaoSelect.addEstado(this.estadoSolicitacao);
+			this.solicitacaoService.adiciona(this.solicitacaoSelect);
+			this.estadoSolicitacao  = new EstadoSolicitacao();
+			mostrarMessage("Solicitaçao Arquivada");			
+			return "/solicitacao/listar?faces-redirect=true";
+		} catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+			return null;
+		}	
+	}
+	
+	public String reabrir() {
+		try {
+			if (this.solicitacao.getArquivo() == null) {
+				throw new RuntimeException("Arquivo de imagem é obrigatorio");
+			} else {
+				this.estadoSolicitacao = new EstadoSolicitacao();
+				this.estadoSolicitacao.setData(new Date());
+				this.estadoSolicitacao.setArea(areaEstado.COMPRAS);
+				this.estadoSolicitacao.setDescricao("***REABIERTA***");
+				this.solicitacao.addEstado(this.estadoSolicitacao);
+				this.solicitacaoService.adiciona(this.solicitacao);
+				this.estadoSolicitacao = new EstadoSolicitacao();
+				mostrarMessage("Solicitaçao reabierta");				
+				return "/solicitacao/listar?faces-redirect=true";
+			}
+		} catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+			return null;
+		}
+
+	}
+	
 	public areaEstado[] getestadoSolicitacoes(){
 		areaEstado[] estadosRetorno = new areaEstado[3];
 		estadosRetorno[0] = areaEstado.COMPRAS;
@@ -131,6 +193,24 @@ public class SolicitacaoController implements Serializable {
 		}
 
 	}	
+	
+	public void listarFinalizadas() {
+		try {
+			this.listaFinalizadas = solicitacaoService.listarFinalizadas();
+		} catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+		}
+
+	}
+	
+	public void listarArquivadas() {
+		try {
+			this.listaArquivadas = solicitacaoService.listarArquivadas();
+		} catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+		}
+
+	}
 	
 	public void estadosSolicitacaoSelect() {
 		this.estadosSolicitacaoSelect = this.solicitacaoService.getEstadosBySolicitacao(this.solicitacaoSelect);
@@ -229,6 +309,22 @@ public class SolicitacaoController implements Serializable {
 
 	public void setListaSolicitacao(List<Solicitacao> listaSolicitacao) {
 		this.listaSolicitacao = listaSolicitacao;
+	}
+	
+	public List<Solicitacao> getListaFinalizadas() {
+		return listaFinalizadas;
+	}
+	
+	public void setListaFinalizadas(List<Solicitacao> listaFinalizadas) {
+		this.listaFinalizadas = listaFinalizadas;
+	}
+	
+	public List<Solicitacao> getListaArquivadas() {
+		return listaArquivadas;
+	}
+	
+	public void setListaArquivadas(List<Solicitacao> listaArquivadas) {
+		this.listaArquivadas = listaArquivadas;
 	}
 	
 	public EstadoSolicitacao getEstadoSolicitacao() {

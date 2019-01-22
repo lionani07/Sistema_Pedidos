@@ -136,7 +136,7 @@ public class SolicitacaoRepository {
 	}
 
 	public List<EstadoSolicitacao> getEstadosBySolicitacao(Solicitacao solicitacaoSelect) {
-		TypedQuery<EstadoSolicitacao> query = this.manager.createQuery("from EstadoSolicitacao es where es.solicitacao=:solicitacaoSelect", EstadoSolicitacao.class);
+		TypedQuery<EstadoSolicitacao> query = this.manager.createQuery("from EstadoSolicitacao es where es.solicitacao=:solicitacaoSelect order by es.id DESC", EstadoSolicitacao.class);
 		query.setParameter("solicitacaoSelect", solicitacaoSelect);
 		return query.getResultList();
 	}
@@ -150,6 +150,18 @@ public class SolicitacaoRepository {
 			return null;
 		}
 		
+	}
+
+	public List<Solicitacao> listarFinalizadas() {
+		TypedQuery<Solicitacao> query = this.manager.createQuery("from Solicitacao s where s.estadoActual=:finalizdo", Solicitacao.class);
+		query.setParameter("finalizdo", areaEstado.FINALIZADO);
+		return query.getResultList();
+	}
+
+	public List<Solicitacao> listarArquivadas() {
+		TypedQuery<Solicitacao> query = this.manager.createQuery("from Solicitacao s where s.estadoActual=:arquivado", Solicitacao.class);
+		query.setParameter("arquivado", areaEstado.ARQUIVADO);
+		return query.getResultList();
 	}
 	
 	

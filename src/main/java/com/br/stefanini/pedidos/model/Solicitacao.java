@@ -62,7 +62,7 @@ public class Solicitacao implements Serializable {
 	}
 		
 	public void addEstado(EstadoSolicitacao estadoSolicitacao){
-		estados.add(estadoSolicitacao);
+		this.getEstados().add(estadoSolicitacao);
 		estadoSolicitacao.setSolicitacao(this);
 		this.setEstadoActual(estadoSolicitacao.getArea());	
 		this.setDateEstadoActual(new Date());		

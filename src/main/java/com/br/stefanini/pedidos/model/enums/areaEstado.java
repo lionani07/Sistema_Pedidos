@@ -6,7 +6,9 @@ public enum areaEstado {
 	OPERACIONES("Operaciones", 2),
 	PRODUTOS("Produtos", 3),	
 	APROVADO("Aprovado", 4),
-	CANCELADO("Cancelado", 5);
+	FINALIZADO("Finalizado", 5),
+	ARQUIVADO("Arquivado", 6),
+	CANCELADO("Cancelado", 7);
 	
 	private String descricao;
 	private int valor;

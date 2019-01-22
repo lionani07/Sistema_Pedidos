@@ -20,8 +20,7 @@ xmlns:p="http://primefaces.org/ui">
 
 <p:row>  
   <p:column colspan="2">
-  <p:outputLabel value="Número de pedido" for="numPedido" /><br/><br/>
-  	<p:inputText value="#{solicitacaoController.solicitacao.numeroPedido}" id="numPedido" />
+  <p:outputLabel value="Número de pedido: #{solicitacaoController.solicitacao.numeroPedido}" /> <br/> 	
   </p:column>
 </p:row>
 
@@ -74,7 +73,7 @@ xmlns:p="http://primefaces.org/ui">
 <f:facet name="footer">
 <p:row>
 <p:column colspan="2">
-<p:commandButton value="Salvar" action="#{solicitacaoController.adicionar}"  icon="ui-icon-disk" update=":frm_novaSolicitacao" />
+<p:commandButton value="Reabrir" action="#{solicitacaoController.reabrir}"  icon="ui-icon-disk" update=":frm_novaSolicitacao" />
 <p:commandButton value="Cancelar" action="/solicitacao/listar?faces-redirect=true" process="@this" icon="ui-icon-close"  />
 </p:column>
 </p:row>

@@ -55,9 +55,14 @@ xmlns:p="http://primefaces.org/ui">
 <p:menuitem icon=" ui-icon-suitcase" value="Solicitaçoes" action="/solicitacao/listar?faces-redirect=true" />
 </p:submenu>
 
-
 <p:menuitem icon="ui-icon-transferthick-e-w" value="Solicitaçoes" action="/solicitacao/listar?faces-redirect=true" rendered="#{loginBean.userLogado.rol != 'ADMIN'}" />
 
+
+
+<p:submenu label="ver" icon="ui-icon-grip-dotted-horizontal" rendered="#{loginBean.userLogado.rol eq 'ANALISTA_COMPRAS'}">
+	<p:menuitem icon="ui-icon-transferthick-e-w" value="Finalizadas" action="/solicitacao/listar-finalizadas?faces-redirect=true"  />
+	<p:menuitem icon="ui-icon-transferthick-e-w" value="Arquivadas" action="/solicitacao/listar-arquivadass?faces-redirect=true"  />
+</p:submenu>
 
 
 <f:facet name="options"> 
