@@ -25,8 +25,24 @@ public class SolicitacaoService {
 		return repository.findById(id);
 	}
 
-	public void adiciona(Solicitacao solicitacao) {						
+	public void adiciona(Solicitacao solicitacao) {	
+		if(!existeSolicitacaobyNumeroPedido(solicitacao.getNumeroPedido())){
+			repository.adicionar(solicitacao);
+		}
+		else{
+			throw new RuntimeException("Numero de pedido existe");
+		}
+		
+	}
+	
+	public void cancelarOuAprovar(Solicitacao solicitacao) {
 		repository.adicionar(solicitacao);
+	}
+	
+	private boolean existeSolicitacaobyNumeroPedido(String numeroPedido){
+		Solicitacao solicitacao = null;
+		solicitacao =  this.repository.existeSolicitacaobyNumeroPedido(numeroPedido);
+		return (solicitacao!=null)? true: false;
 	}
 
 	public List<Solicitacao> listar() {
@@ -41,7 +57,7 @@ public class SolicitacaoService {
 	public void aprovar(Solicitacao solicitacao, EstadoSolicitacao estadoSolicitacao){
 		if(aprovarSolicitacao(solicitacao, estadoSolicitacao)){
 			solicitacao.addEstado(estadoSolicitacao);
-			adiciona(solicitacao);
+			cancelarOuAprovar(solicitacao);
 		}		
 	}
 	

@@ -140,6 +140,17 @@ public class SolicitacaoRepository {
 		query.setParameter("solicitacaoSelect", solicitacaoSelect);
 		return query.getResultList();
 	}
+
+	public Solicitacao existeSolicitacaobyNumeroPedido(String numeroPedido) {
+		try {
+			TypedQuery<Solicitacao> query = this.manager.createQuery("from Solicitacao s where upper(s.numeroPedido) =:numeroPedido", Solicitacao.class);
+			query.setParameter("numeroPedido", numeroPedido.toUpperCase());
+			return query.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
 	
 	
 

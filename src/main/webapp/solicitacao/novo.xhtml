@@ -17,6 +17,31 @@ xmlns:p="http://primefaces.org/ui">
 <p:fieldset legend="Solicitaçao" style="width:600px">
 
 <p:panelGrid  style="width:600px">
+
+<p:row>  
+  <p:column colspan="2">
+  <p:outputLabel value="Número de pedido" for="numPedido" /><br/><br/>
+  	<p:inputText value="#{solicitacaoController.solicitacao.numeroPedido}" id="numPedido" />
+  </p:column>
+</p:row>
+
+<p:row>
+	<p:column>	
+	<p:outputLabel value="Valor de compra" for="valor_compra"/><br/>
+		<p:inputNumber id="valor_compra" value="#{solicitacaoController.solicitacao.valorCompra}" validatorMessage="Valor de compra errado" decimalPlaces="2" decimalSeparator="." thousandSeparator="," required="true" requiredMessage="Valor de compra é obrigatório" >
+		<f:validateDoubleRange minimum="1" for="valor_compra" />
+	</p:inputNumber>
+	</p:column>
+	
+	<p:column>
+		<p:outputLabel value="TARGET" for="target"/><br/>
+		<p:inputNumber id="target" value="#{solicitacaoController.solicitacao.target}" validatorMessage="TARGET errado" decimalPlaces="2" decimalSeparator="." thousandSeparator="," required="true" requiredMessage="TARGET é obrigatório" >
+		<f:validateDoubleRange minimum="1" for="target" />
+		</p:inputNumber>
+	</p:column>
+	
+</p:row>
+
 <p:row>  
   <p:column colspan="2">
   <p:outputLabel value="Descriçao" for="descricao" /><br/><br/>

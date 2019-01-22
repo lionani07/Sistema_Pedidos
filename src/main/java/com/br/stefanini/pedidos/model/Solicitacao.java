@@ -31,6 +31,11 @@ public class Solicitacao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank(message="Numero de pedido é obrigatório")
+	private String numeroPedido;
+	private Double valorCompra;	
+	private Double target;
+	
 	@Lob()
 	@Column(name="ARQUIVO_IMAGEM", columnDefinition="LONGBLOB")	
 	private byte[] arquivo;
@@ -38,7 +43,7 @@ public class Solicitacao implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataCreacao;
 	
-	@NotBlank(message="Descricao e obrigatório")
+	@NotBlank(message="Descricao é obrigatório")
 	private String descricao;	
 	
 	@Enumerated(EnumType.STRING)
@@ -75,6 +80,31 @@ public class Solicitacao implements Serializable {
 		this.id = id;
 	}
 	
+	public String getNumeroPedido() {
+		return numeroPedido;
+	}
+	
+	public void setNumeroPedido(String numeroPedido) {
+		this.numeroPedido = numeroPedido;
+	}
+	
+	
+	public Double getValorCompra() {
+		return valorCompra;
+	}
+
+	public void setValorCompra(Double valorCompra) {
+		this.valorCompra = valorCompra;
+	}
+
+	public Double getTarget() {
+		return target;
+	}
+
+	public void setTarget(Double target) {
+		this.target = target;
+	}
+
 	public byte[] getArquivo() {
 		return arquivo;
 	}
@@ -143,14 +173,14 @@ public class Solicitacao implements Serializable {
 	public String estadoSolicitacaoString(){
 		int dias = this.DiasFinalizar();
 		String estado ="";
-		if(dias<0){
-			estado = "negativo";
+		if(dias<-3){
+			estado = "vermelho";
 		}
-		else if(dias==0){
-			estado = "hoy";
+		else if(dias>=-3 && dias<-1){
+			estado = "amarelho";
 		}
 		else{
-			estado = "positivo";
+			estado = "verde";
 		}		
 		return estado;
 	}

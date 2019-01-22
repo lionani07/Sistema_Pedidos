@@ -80,7 +80,7 @@ public class SolicitacaoController implements Serializable {
 			this.estadoSolicitacao.setData(new Date());
 			this.estadoSolicitacao.setArea(areaEstado.CANCELADO);
 			this.solicitacaoSelect.addEstado(this.estadoSolicitacao);
-			this.solicitacaoService.adiciona(this.solicitacaoSelect);
+			this.solicitacaoService.cancelarOuAprovar(this.solicitacaoSelect);
 			mostrarMessage("Solicitaçao cancelada");
 			this.estadoSolicitacao  = new EstadoSolicitacao();
 			return "/solicitacao/listar?faces-redirect=true";

@@ -29,8 +29,20 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </div>
 </f:facet>
 
-<p:column headerText="Código">
-<h:outputText value="#{solicitacao.id}" />
+<p:column headerText="Numero do pedido">
+<h:outputText value="#{solicitacao.numeroPedido}" />
+</p:column>
+
+<p:column headerText="Valor da compra">
+<h:outputText value="#{solicitacao.valorCompra}" >
+<f:convertNumber pattern="R$ #,##0.00" />
+</h:outputText>
+</p:column>
+
+<p:column headerText="TARGET">
+<h:outputText value="#{solicitacao.target}" >
+	<f:convertNumber pattern="R$ #,##0.00" />
+</h:outputText>
 </p:column>
 
 <p:column headerText="Descriçao">
@@ -60,9 +72,9 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </p:column>
 
 <p:column headerText="Dias" style="width:35px" sortBy="#{solicitacao.DiasFinalizar()}">
-<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FF0000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'negativo'}"/>
-<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FFFF00; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'hoy'}"/>
-<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#008000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'positivo'}"/>
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FF0000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'vermelho'}"/>
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FFFF00; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'amarelho'}"/>
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#008000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'verde'}"/>
 </p:column>
 
 <p:column style="width: 30px">
@@ -71,14 +83,18 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </p:button>
 </p:column>
 
-<p:column style="width:30px">
-<p:button icon="ui-icon-pencil" title="Editar" outcome="/solicitacao/novo">
+<p:column style="width:30px" rendered="#{loginBean.userLogado.rol eq 'ANALISTA_COMPRAS'}" >
+<p:button  rendered="#{solicitacao.estadoActual eq 'COMPRAS'}" icon="ui-icon-pencil" title="Editar" outcome="/solicitacao/novo">
 <f:param name="id" value="#{solicitacao.id}" />
 </p:button>
+<p:button rendered="#{solicitacao.estadoActual eq 'CANCELADO'}"  value="Reabrir">
+	<f:param name="id" value="#{solicitacao.id}" />
+</p:button>
+<p:commandButton rendered="#{solicitacao.estadoActual eq 'APROVADO'}" value="Finalizar"></p:commandButton>  
 </p:column>
 
-<p:column style="width:30px">
-<p:commandButton icon="ui-icon-trash" title="excluir" update=":frm_solicitacao:datable_solicitacoes :template" oncomplete="PF('tableSolicitacoes').filter()" action="#{solicitacaoController.delete}">
+<p:column style="width:30px" rendered="#{loginBean.userLogado.rol eq 'ANALISTA_COMPRAS'}" >
+<p:commandButton rendered="#{solicitacao.estadoActual eq 'COMPRAS'}" icon="ui-icon-trash" title="excluir" update=":frm_solicitacao:datable_solicitacoes :template :frm_solicitacao:listEstados" oncomplete="PF('tableSolicitacoes').filter()" action="#{solicitacaoController.delete}">
 <f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoController.solicitacaoSelect}" />
 <p:confirm header="Excluir solicitaçao" message="Tem Certeza?" icon="ui-icon-alert" />
 
@@ -87,6 +103,8 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 		<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
 		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
   </p:confirmDialog>
+  
+<p:commandButton rendered="#{solicitacao.estadoActual eq 'CANCELADO'}" value="Arquivar"></p:commandButton>  
 
 </p:column>
 
