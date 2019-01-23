@@ -19,6 +19,7 @@ import org.primefaces.event.FileUploadEvent;
 import com.br.stefanini.pedidos.model.EstadoSolicitacao;
 import com.br.stefanini.pedidos.model.Solicitacao;
 import com.br.stefanini.pedidos.model.enums.areaEstado;
+import com.br.stefanini.pedidos.repository.SolicitacaoRepository;
 import com.br.stefanini.pedidos.services.SolicitacaoService;
 
 @ManagedBean
@@ -82,8 +83,7 @@ public class SolicitacaoController implements Serializable {
 		try {
 			this.estadoSolicitacao = new EstadoSolicitacao();
 			this.estadoSolicitacao.setData(new Date());
-			this.estadoSolicitacao.setArea(areaEstado.CANCELADO);
-			this.estadoSolicitacao.setDescricao("***CANCELADO***");
+			this.estadoSolicitacao.setArea(areaEstado.CANCELADO);			
 			this.solicitacaoSelect.addEstado(this.estadoSolicitacao);
 			this.solicitacaoService.adiciona(this.solicitacaoSelect);
 			mostrarMessage("Solicitaçao cancelada");
@@ -121,16 +121,18 @@ public class SolicitacaoController implements Serializable {
 	}
 	
 	
-	public String finalizar(){
+	public String finalizar(Solicitacao solicitacao){
 		try {
-			this.estadoSolicitacao = new EstadoSolicitacao();
-			this.estadoSolicitacao.setData(new Date());
-			this.estadoSolicitacao.setArea(areaEstado.FINALIZADO);
-			this.estadoSolicitacao.setDescricao("***FINALIZADO***");
-			this.solicitacaoSelect.addEstado(this.estadoSolicitacao);
-			this.solicitacaoService.adiciona(this.solicitacaoSelect);
-			mostrarMessage("Solicitaçao Finalizada");
-			this.estadoSolicitacao  = new EstadoSolicitacao();
+			EstadoSolicitacao estado = new EstadoSolicitacao();
+			estado.setArea(areaEstado.FINALIZADO);
+			estado.setData(new Date());
+			estado.setDescricao("***FINALIZADO***");
+			estado.setSolicitacao(solicitacao);
+			new SolicitacaoRepository().addEstado(estado);
+			solicitacao.setEstadoActual(areaEstado.FINALIZADO);
+			solicitacao.setDateEstadoActual(new Date());
+			this.solicitacaoService.adiciona(solicitacao);
+			mostrarMessage("Solicitaçao Finalizada");			
 			return "/solicitacao/listar?faces-redirect=true";
 		} catch (Exception e) {
 			mostrarMessageError(e.getMessage());
@@ -138,17 +140,19 @@ public class SolicitacaoController implements Serializable {
 		}		
 	}
 	
-	public String arquivar(){
+	public String arquivar(Solicitacao solicitacao){
 		try {
-			this.estadoSolicitacao = new EstadoSolicitacao();
-			this.estadoSolicitacao.setData(new Date());
-			this.estadoSolicitacao.setArea(areaEstado.ARQUIVADO);
-			this.estadoSolicitacao.setDescricao("***ARQUIVADO***");
-			this.solicitacaoSelect.addEstado(this.estadoSolicitacao);
-			this.solicitacaoService.adiciona(this.solicitacaoSelect);
-			this.estadoSolicitacao  = new EstadoSolicitacao();
-			mostrarMessage("Solicitaçao Arquivada");			
-			return "/solicitacao/listar?faces-redirect=true";
+				EstadoSolicitacao estado = new EstadoSolicitacao();
+				estado.setArea(areaEstado.ARQUIVADO);
+				estado.setData(new Date());
+				estado.setDescricao("***ARQUIVADO***");
+				estado.setSolicitacao(solicitacao);
+				new SolicitacaoRepository().addEstado(estado);
+				solicitacao.setEstadoActual(areaEstado.ARQUIVADO);
+				solicitacao.setDateEstadoActual(new Date());
+				this.solicitacaoService.adiciona(solicitacao);
+				mostrarMessage("Solicitaçao Arquivada");
+				return "/solicitacao/listar?faces-redirect=true";
 		} catch (Exception e) {
 			mostrarMessageError(e.getMessage());
 			return null;

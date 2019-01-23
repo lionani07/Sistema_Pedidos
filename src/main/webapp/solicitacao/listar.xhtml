@@ -93,8 +93,7 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </p:button>
 
 
-<p:commandButton rendered="#{solicitacao.estadoActual eq 'APROVADO'}" title="Finalizar" icon="ui-icon-locked" action="#{solicitacaoController.finalizar}" process="@this" >
-<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoController.solicitacaoSelect}" />
+<p:commandButton rendered="#{solicitacao.estadoActual eq 'APROVADO'}" title="Finalizar" icon="ui-icon-locked" action="#{solicitacaoController.finalizar(solicitacao)}" process="@this" >
 <p:confirm header="Finalizar solicitaçao" message="Tem Certeza?" icon="ui-icon-alert" />
 </p:commandButton>  
 
@@ -111,10 +110,10 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
   </p:confirmDialog>
   
-<p:commandButton rendered="#{solicitacao.estadoActual eq 'CANCELADO'}" title="Arquivar" icon="ui-icon-document" action="#{solicitacaoController.arquivar}" process="@this">
-	<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoController.solicitacaoSelect}" />	
+<p:commandButton rendered="#{solicitacao.estadoActual eq 'CANCELADO'}" title="Arquivar" icon="ui-icon-document" action="#{solicitacaoController.arquivar(solicitacao)}" process="@this"  >
 	<p:confirm header="Arquivar solicitaçao" message="Tem Certeza?" icon="ui-icon-alert" />
-</p:commandButton>  
+</p:commandButton>	
+  
 
 </p:column>
 
@@ -125,10 +124,8 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </div>
 
 <p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal">
-     <p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados">
-	<p:column headerText="Id">
-		<h:outputText value="#{estado.id}" />
-	</p:column>
+	<div align="center">
+     <p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados" style="text-align:center; width:95%">
 	
 	<p:column headerText="Data">
 		<h:outputText value="#{estado.data}">
@@ -145,6 +142,7 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 	</p:column>
 	
 </p:dataTable>
+	</div>
  </p:panel>
 
 </p:fieldset>

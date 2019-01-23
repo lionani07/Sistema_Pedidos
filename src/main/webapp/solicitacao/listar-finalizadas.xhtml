@@ -59,10 +59,8 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </div>
 
 <p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal">
-     <p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados">
-	<p:column headerText="Id">
-		<h:outputText value="#{estado.id}" />
-	</p:column>
+	<div align="center">
+		<p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados" style="text-align:center; width:95%">	
 	
 	<p:column headerText="Data">
 		<h:outputText value="#{estado.data}">
@@ -79,6 +77,8 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 	</p:column>
 	
 </p:dataTable>
+	</div>
+     
  </p:panel>
 
 </p:fieldset>

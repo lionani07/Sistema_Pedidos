@@ -36,6 +36,19 @@ public class SolicitacaoRepository {
 		}
 
 	}
+	
+	public void addEstado(EstadoSolicitacao estadoSolicitacao){
+		EntityTransaction trx = null;
+		try {
+			trx = this.manager.getTransaction();
+			trx.begin();
+			this.manager.merge(estadoSolicitacao);
+			trx.commit();
+		} catch (Exception e) {
+			trx.rollback();
+			throw new RuntimeException(e.getMessage());
+		}
+	}
 
 	public List<Solicitacao> listar(Usuario usuario) {
 		TypedQuery<Solicitacao> query = this.manager.createQuery(
