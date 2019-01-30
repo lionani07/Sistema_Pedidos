@@ -103,4 +103,8 @@ public class SolicitacaoService {
 		return repository.listarArquivadas();
 	}
 
+	public List<Solicitacao> listarEnAdamentos() {
+		return repository.listarEmAndamento();
+	}
+
 }

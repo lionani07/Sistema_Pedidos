@@ -7,7 +7,7 @@ xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 xmlns:p="http://primefaces.org/ui">
 
 <f:metadata>
-<f:viewAction action="#{solicitacaoController.listarArquivadas}" />
+<f:viewAction action="#{solicitacaoController.listarEmAndamentos}" />
 <f:viewAction action="#{solicitacaoController.estadosSolicitacaoSelect}" />
 </f:metadata>
 
@@ -15,9 +15,9 @@ xmlns:p="http://primefaces.org/ui">
 
 <h:form id="frm_solicitacao">
 
-<p:fieldset legend="Listado de Solitaçoes Finalizadas">
+<p:fieldset legend="Solitaçoes en andamento">
 
-<p:dataTable widgetVar="tableSolicitacoes" style="text-align:center" id="datable_solicitacoes" var="solicitacao" value="#{solicitacaoController.listaArquivadas}" paginator="true"
+<p:dataTable widgetVar="tableSolicitacoes" style="text-align:center" id="datable_solicitacoes" var="solicitacao" value="#{solicitacaoController.listaEnAndamentos}" paginator="true"
 rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicitacaoController.solicitacaoSelect}" paginatorPosition="bottom" >
 
 <p:ajax event="rowSelect" listener="#{solicitacaoController.estadosSolicitacaoSelect}" update=":frm_solicitacao:listEstados" />
@@ -42,14 +42,26 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 <h:outputText value="#{solicitacao.descricao}" />
 </p:column>
 
-<p:column headerText="Criaçao">
+<p:column headerText="Data Criaçao">
 <h:outputText value="#{solicitacao.dataCreacao}">
  <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 </h:outputText>
 </p:column>
 
-<p:column headerText="Estado" >
+<p:column headerText="Status" sortBy="#{solicitacao.estadoActual}" filterBy="#{solicitacao.estadoActual}" filterMatchMode="exact" >
+<f:facet name="filter">
+       <p:selectOneMenu onchange="PF('tableSolicitacoes').filter()">
+           <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
+           <f:selectItems value="#{solicitacaoController.estadoSolicitacoesAndamento}" />
+      </p:selectOneMenu>
+   </f:facet>
 <h:outputText value="#{solicitacao.estadoActual}" />
+</p:column>
+
+<p:column headerText="Time" style="width:35px" sortBy="#{solicitacao.DiasFinalizar()}">
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FF0000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'vermelho'}"/>
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FFFF00; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'amarelho'}"/>
+<p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#008000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'verde'}"/>
 </p:column>
 
 </p:dataTable>
@@ -58,9 +70,9 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 	<p></p>
 </div>
 
-<p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal">
+<p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal" style="width:50%">
 	<div align="center">
-     <p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados" style="text-align:center; width:95%">	
+		<p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados" style="text-align:center; width:95%">	
 	
 	<p:column headerText="Data">
 		<h:outputText value="#{estado.data}">
@@ -68,7 +80,7 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 		</h:outputText>
 	</p:column>
 	
-	<p:column headerText="Estado">
+	<p:column headerText="Status">	
 		<h:outputText value="#{estado.area.descricao}" />
 	</p:column>
 	
@@ -78,6 +90,7 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 	
 </p:dataTable>
 	</div>
+     
  </p:panel>
 
 </p:fieldset>

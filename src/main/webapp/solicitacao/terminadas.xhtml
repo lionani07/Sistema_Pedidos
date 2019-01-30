@@ -15,7 +15,7 @@ xmlns:p="http://primefaces.org/ui">
 
 <h:form id="frm_solicitacao">
 
-<p:fieldset legend="Listado de Solitaçoes Finalizadas">
+<p:fieldset legend="Solitaçoes Terminadas">
 
 <p:dataTable widgetVar="tableSolicitacoes" style="text-align:center" id="datable_solicitacoes" var="solicitacao" value="#{solicitacaoController.listaFinalizadas}" paginator="true"
 rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicitacaoController.solicitacaoSelect}" paginatorPosition="bottom" >
@@ -42,13 +42,13 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 <h:outputText value="#{solicitacao.descricao}" />
 </p:column>
 
-<p:column headerText="Criaçao">
+<p:column headerText="Data Criaçao">
 <h:outputText value="#{solicitacao.dataCreacao}">
  <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 </h:outputText>
 </p:column>
 
-<p:column headerText="Estado" >
+<p:column headerText="Status" >
 <h:outputText value="#{solicitacao.estadoActual}" />
 </p:column>
 
@@ -58,7 +58,7 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 	<p></p>
 </div>
 
-<p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal">
+<p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal" style="width:50%">
 	<div align="center">
 		<p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados" style="text-align:center; width:95%">	
 	
@@ -68,7 +68,7 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 		</h:outputText>
 	</p:column>
 	
-	<p:column headerText="Estado">
+	<p:column headerText="Status">
 		<h:outputText value="#{estado.area.descricao}" />
 	</p:column>
 	

@@ -49,13 +49,13 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 <h:outputText value="#{solicitacao.descricao}" />
 </p:column>
 
-<p:column headerText="Criaçao">
+<p:column headerText="Data Criaçao">
 <h:outputText value="#{solicitacao.dataCreacao}">
  <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 </h:outputText>
 </p:column>
 
-<p:column headerText="Estado" sortBy="#{solicitacao.estadoActual}" filterBy="#{solicitacao.estadoActual}" filterMatchMode="exact">
+<p:column headerText="Status" sortBy="#{solicitacao.estadoActual}" filterBy="#{solicitacao.estadoActual}" filterMatchMode="exact">
    <f:facet name="filter">
        <p:selectOneMenu onchange="PF('tableSolicitacoes').filter()" rendered="#{loginBean.userLogado.rol eq 'ANALISTA_COMPRAS'}" >
            <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
@@ -65,13 +65,7 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 <h:outputText value="#{solicitacao.estadoActual}" />
 </p:column>
 
-<p:column headerText="Data Ultimo estado">
-	<h:outputText value="#{solicitacao.dateEstadoActual}">
-		 <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
-	</h:outputText>
-</p:column>
-
-<p:column headerText="Dias" style="width:35px" sortBy="#{solicitacao.DiasFinalizar()}">
+<p:column headerText="Time" style="width:35px" sortBy="#{solicitacao.DiasFinalizar()}">
 <p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FF0000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'vermelho'}"/>
 <p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#FFFF00; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'amarelho'}"/>
 <p:button value="#{solicitacao.DiasFinalizarToString()}" style="background:#008000; color:#ccc" rendered="#{solicitacao.estadoSolicitacaoString() eq 'verde'}"/>
@@ -93,8 +87,8 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </p:button>
 
 
-<p:commandButton rendered="#{solicitacao.estadoActual eq 'APROVADO'}" title="Finalizar" icon="ui-icon-locked" action="#{solicitacaoController.finalizar(solicitacao)}" process="@this" >
-<p:confirm header="Finalizar solicitaçao" message="Tem Certeza?" icon="ui-icon-alert" />
+<p:commandButton rendered="#{solicitacao.estadoActual eq 'APROVADO'}" title="Terminar" icon="ui-icon-locked" action="#{solicitacaoController.finalizar(solicitacao)}" process="@this" >
+<p:confirm header="Terminar solicitaçao" message="Tem Certeza?" icon="ui-icon-alert" />
 </p:commandButton>  
 
 </p:column>
@@ -123,17 +117,17 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 	<p></p>
 </div>
 
-<p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal">
+<p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal" style="width:50%">
 	<div align="center">
      <p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados" style="text-align:center; width:95%">
 	
-	<p:column headerText="Data">
+	<p:column headerText="Data" style="width:100px">
 		<h:outputText value="#{estado.data}">
 			<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 		</h:outputText>
 	</p:column>
 	
-	<p:column headerText="Estado">
+	<p:column headerText="Status" style="width:200px">
 		<h:outputText value="#{estado.area.descricao}" />
 	</p:column>
 	

@@ -88,6 +88,17 @@ public class SolicitacaoRepository {
 		}
 		return query.getResultList();
 	}
+	
+	public List<Solicitacao> listarEmAndamento() {
+		TypedQuery<Solicitacao> query = this.manager
+				.createQuery(
+						"from Solicitacao s where s.estadoActual=:tecnico or s.estadoActual=:operaciones or s.estadoActual=:produtos",
+						Solicitacao.class);
+		query.setParameter("tecnico", areaEstado.TECNICO);
+		query.setParameter("operaciones", areaEstado.OPERACIONES);
+		query.setParameter("produtos", areaEstado.PRODUTOS);		
+		return query.getResultList();
+	}
 
 	public Solicitacao findById(Integer id) {
 		return this.manager.find(Solicitacao.class, id);

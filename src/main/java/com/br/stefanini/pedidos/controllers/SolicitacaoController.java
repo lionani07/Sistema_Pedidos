@@ -34,6 +34,7 @@ public class SolicitacaoController implements Serializable {
 	private List<Solicitacao> listaSolicitacao = new ArrayList<Solicitacao>();
 	private List<Solicitacao> listaFinalizadas = new ArrayList<Solicitacao>();
 	private List<Solicitacao> listaArquivadas = new ArrayList<Solicitacao>();
+	private List<Solicitacao> listaEnAndamentos = new ArrayList<Solicitacao>();
 	private EstadoSolicitacao estadoSolicitacao;
 	private List<EstadoSolicitacao> estadosSolicitacaoSelect = new ArrayList<EstadoSolicitacao>();
 
@@ -80,11 +81,9 @@ public class SolicitacaoController implements Serializable {
 	}
 	
 	public String cancelarSolicitacao(){
-		try {
-			this.estadoSolicitacao = new EstadoSolicitacao();
+		try {			
 			this.estadoSolicitacao.setData(new Date());
-			this.estadoSolicitacao.setArea(areaEstado.CANCELADO);	
-			//this.estadoSolicitacao.setDescricao("Cancelada");
+			this.estadoSolicitacao.setArea(areaEstado.CANCELADO);			
 			this.solicitacaoSelect.addEstado(this.estadoSolicitacao);
 			this.solicitacaoService.adiciona(this.solicitacaoSelect);
 			mostrarMessage("Solicitaçao cancelada");
@@ -189,6 +188,17 @@ public class SolicitacaoController implements Serializable {
 		estadosRetorno[2] = areaEstado.CANCELADO;
 		return estadosRetorno;
 	}
+	
+	public areaEstado[] getestadoSolicitacoesAndamento(){
+		areaEstado[] estadosRetorno = new areaEstado[3];
+		estadosRetorno[0] = areaEstado.TECNICO;
+		estadosRetorno[1] = areaEstado.OPERACIONES;
+		estadosRetorno[2] = areaEstado.PRODUTOS;
+		return estadosRetorno;
+	}
+	
+	
+	
 
 	public void listar() {
 		try {
@@ -198,6 +208,15 @@ public class SolicitacaoController implements Serializable {
 		}
 
 	}	
+	
+	public void listarEmAndamentos() {
+		try {
+			this.listaEnAndamentos = solicitacaoService.listarEnAdamentos();
+		} catch (Exception e) {
+			mostrarMessageError(e.getMessage());
+		}
+
+	}
 	
 	public void listarFinalizadas() {
 		try {
@@ -314,6 +333,14 @@ public class SolicitacaoController implements Serializable {
 
 	public void setListaSolicitacao(List<Solicitacao> listaSolicitacao) {
 		this.listaSolicitacao = listaSolicitacao;
+	}
+	
+	public List<Solicitacao> getListaEnAndamentos() {
+		return listaEnAndamentos;
+	}
+	
+	public void setListaEnAndamentos(List<Solicitacao> listaEnAndamentos) {
+		this.listaEnAndamentos = listaEnAndamentos;
 	}
 	
 	public List<Solicitacao> getListaFinalizadas() {

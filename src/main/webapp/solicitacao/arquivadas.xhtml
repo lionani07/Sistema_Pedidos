@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/template.xhtml"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+<f:viewAction action="#{solicitacaoController.listarArquivadas}" />
+<f:viewAction action="#{solicitacaoController.estadosSolicitacaoSelect}" />
+</f:metadata>
+
+<ui:define name="corpo">
+
+<h:form id="frm_solicitacao">
+
+<p:fieldset legend="Solitaçoes Arquivadas">
+
+<p:dataTable widgetVar="tableSolicitacoes" style="text-align:center" id="datable_solicitacoes" var="solicitacao" value="#{solicitacaoController.listaArquivadas}" paginator="true"
+rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicitacaoController.solicitacaoSelect}" paginatorPosition="bottom" >
+
+<p:ajax event="rowSelect" listener="#{solicitacaoController.estadosSolicitacaoSelect}" update=":frm_solicitacao:listEstados" />
+ 
+<p:column headerText="Numero do pedido">
+<h:outputText value="#{solicitacao.numeroPedido}" />
+</p:column>
+
+<p:column headerText="Valor da compra">
+<h:outputText value="#{solicitacao.valorCompra}" >
+	<f:convertNumber currencySymbol="R$" maxFractionDigits="2"  type="currency" locale="pt_BR"/>
+</h:outputText>
+</p:column>
+
+<p:column headerText="TARGET">
+<h:outputText value="#{solicitacao.target}" >
+	<f:convertNumber currencySymbol="R$" maxFractionDigits="2"  type="currency" locale="pt_BR"/>
+</h:outputText>
+</p:column>
+
+<p:column headerText="Descriçao">
+<h:outputText value="#{solicitacao.descricao}" />
+</p:column>
+
+<p:column headerText="Criaçao">
+<h:outputText value="#{solicitacao.dataCreacao}">
+ <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+</h:outputText>
+</p:column>
+
+<p:column headerText="Status" >
+<h:outputText value="#{solicitacao.estadoActual}" />
+</p:column>
+
+</p:dataTable>
+
+<div>
+	<p></p>
+</div>
+
+<p:panel header="Status de Solicitaçao" toggleable="true" toggleOrientation="horizontal" style="width:50%">
+	<div align="center">
+     <p:dataTable value="#{solicitacaoController.estadosSolicitacaoSelect}" var="estado" id="listEstados" style="text-align:center; width:95%">	
+	
+	<p:column headerText="Data">
+		<h:outputText value="#{estado.data}">
+			<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+		</h:outputText>
+	</p:column>
+	
+	<p:column headerText="Status">
+		<h:outputText value="#{estado.area.descricao}" />
+	</p:column>
+	
+	<p:column headerText="Descricao">
+		<h:outputText value="#{estado.descricao}" />
+	</p:column>
+	
+</p:dataTable>
+	</div>
+ </p:panel>
+
+</p:fieldset>
+
+</h:form>
+
+</ui:define>
+</ui:composition>
