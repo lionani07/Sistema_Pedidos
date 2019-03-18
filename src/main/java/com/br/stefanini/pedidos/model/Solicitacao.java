@@ -130,6 +130,10 @@ public class Solicitacao implements Serializable {
 		return estadoActual;
 	}
 	
+	public String getEstadoNext(){
+		return estadoActual.getAreEstadoNext();
+	}
+	
 	public void setEstadoActual(areaEstado estadoActual) {
 		this.estadoActual = estadoActual;
 	}

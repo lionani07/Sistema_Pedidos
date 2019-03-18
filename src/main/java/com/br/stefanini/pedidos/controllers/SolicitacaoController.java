@@ -181,20 +181,20 @@ public class SolicitacaoController implements Serializable {
 
 	}
 	
-	public areaEstado[] getestadoSolicitacoes(){
-		areaEstado[] estadosRetorno = new areaEstado[3];
-		estadosRetorno[0] = areaEstado.COMPRAS;
-		estadosRetorno[1] = areaEstado.APROVADO;
-		estadosRetorno[2] = areaEstado.CANCELADO;
-		return estadosRetorno;
+	public String[] getestadoSolicitacoes(){
+		String[] estados = new String[3];
+		estados[0] = areaEstado.values()[0].getAreEstadoNext();
+		estados[1] = areaEstado.values()[4].getAreEstadoNext();
+		estados[2] = areaEstado.values()[7].getAreEstadoNext();
+		return estados;
 	}
 	
-	public areaEstado[] getestadoSolicitacoesAndamento(){
-		areaEstado[] estadosRetorno = new areaEstado[3];
-		estadosRetorno[0] = areaEstado.TECNICO;
-		estadosRetorno[1] = areaEstado.OPERACIONES;
-		estadosRetorno[2] = areaEstado.PRODUTOS;
-		return estadosRetorno;
+	public String[] getestadoSolicitacoesAndamento(){		
+		String[] estados = new String[3];		
+		estados[0] = areaEstado.values()[1].getAreEstadoNext();
+		estados[1] = areaEstado.values()[2].getAreEstadoNext();
+		estados[2] = areaEstado.values()[3].getAreEstadoNext();
+		return estados;
 	}
 	
 	

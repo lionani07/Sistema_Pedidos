@@ -48,14 +48,14 @@ rows="15" selectionMode="single" rowKey="#{solicitacao.id}" selection="#{solicit
 </h:outputText>
 </p:column>
 
-<p:column headerText="Status" sortBy="#{solicitacao.estadoActual}" filterBy="#{solicitacao.estadoActual}" filterMatchMode="exact" >
+<p:column headerText="Status" sortBy="#{solicitacao.estadoNext}" filterBy="#{solicitacao.estadoNext}" filterMatchMode="exact" >
 <f:facet name="filter">
        <p:selectOneMenu onchange="PF('tableSolicitacoes').filter()">
            <f:selectItem itemLabel="All" itemValue="#{null}" noSelectionOption="true" />
            <f:selectItems value="#{solicitacaoController.estadoSolicitacoesAndamento}" />
       </p:selectOneMenu>
    </f:facet>
-<h:outputText value="#{solicitacao.estadoActual}" />
+<h:outputText value="#{solicitacao.estadoNext}" />
 </p:column>
 
 <p:column headerText="Time" style="width:35px" sortBy="#{solicitacao.DiasFinalizar()}">
